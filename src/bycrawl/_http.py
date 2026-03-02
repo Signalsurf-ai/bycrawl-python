@@ -34,7 +34,7 @@ from ._exceptions import (
 DEFAULT_BASE_URL = "https://api.bycrawl.com"
 DEFAULT_TIMEOUT = 60.0
 DEFAULT_MAX_RETRIES = 2
-SDK_VERSION = "0.1.0"
+SDK_VERSION = "0.1.1"
 
 _RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
 
