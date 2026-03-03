@@ -46,7 +46,11 @@ def _parse_credit(headers: dict[str, str]) -> CreditInfo | None:
     )
 
 
-def _wrap_response(wrapper: ResponseWrapper, cast_to: _ModelT | None = None) -> APIResponse:  # type: ignore[type-arg]
+def _wrap_response(
+    wrapper: ResponseWrapper,
+    cast_to: _ModelT | None = None,
+    items_key: str | None = None,
+) -> APIResponse:  # type: ignore[type-arg]
     """Build an APIResponse from a ResponseWrapper."""
     data = wrapper.data
     body_data = data.get("data") if isinstance(data, dict) else data
@@ -57,7 +61,10 @@ def _wrap_response(wrapper: ResponseWrapper, cast_to: _ModelT | None = None) -> 
     parsed: Any = body_data
     if cast_to is not None and body_data is not None:
         try:
-            if isinstance(body_data, list):
+            if items_key and isinstance(body_data, dict):
+                items = body_data.get(items_key, [])
+                parsed = [cast_to.model_validate(item) for item in items]
+            elif isinstance(body_data, list):
                 parsed = [cast_to.model_validate(item) for item in body_data]
             elif isinstance(body_data, dict):
                 parsed = cast_to.model_validate(body_data)
@@ -86,8 +93,9 @@ class APIResource:
         *,
         params: dict[str, Any] | None = None,
         cast_to: _ModelT | None = None,
+        items_key: str | None = None,
     ) -> APIResponse:  # type: ignore[type-arg]
-        return self._request("GET", path, params=params, cast_to=cast_to)
+        return self._request("GET", path, params=params, cast_to=cast_to, items_key=items_key)
 
     def _post(
         self,
@@ -106,9 +114,10 @@ class APIResource:
         params: dict[str, Any] | None = None,
         body: dict[str, Any] | None = None,
         cast_to: _ModelT | None = None,
+        items_key: str | None = None,
     ) -> APIResponse:  # type: ignore[type-arg]
         wrapper = self._transport.request(method, path, params=params, json=body)
-        return _wrap_response(wrapper, cast_to=cast_to)
+        return _wrap_response(wrapper, cast_to=cast_to, items_key=items_key)
 
     def _paginate(
         self,
@@ -217,8 +226,11 @@ class AsyncAPIResource:
         *,
         params: dict[str, Any] | None = None,
         cast_to: _ModelT | None = None,
+        items_key: str | None = None,
     ) -> APIResponse:  # type: ignore[type-arg]
-        return await self._request("GET", path, params=params, cast_to=cast_to)
+        return await self._request(
+            "GET", path, params=params, cast_to=cast_to, items_key=items_key,
+        )
 
     async def _post(
         self,
@@ -237,9 +249,10 @@ class AsyncAPIResource:
         params: dict[str, Any] | None = None,
         body: dict[str, Any] | None = None,
         cast_to: _ModelT | None = None,
+        items_key: str | None = None,
     ) -> APIResponse:  # type: ignore[type-arg]
         wrapper = await self._transport.request(method, path, params=params, json=body)
-        return _wrap_response(wrapper, cast_to=cast_to)
+        return _wrap_response(wrapper, cast_to=cast_to, items_key=items_key)
 
     async def _paginate(
         self,

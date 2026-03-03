@@ -23,6 +23,7 @@ class Reddit(APIResource):
             f"/reddit/subreddits/{name}/posts",
             params={"sort": sort, "count": count},
             cast_to=RedditPost,
+            items_key="posts",
         )
 
     def get_post(self, post_id: str) -> APIResponse[RedditPost]:
@@ -39,6 +40,7 @@ class Reddit(APIResource):
             "/reddit/posts/search",
             params={"q": q, "sort": sort, "count": count},
             cast_to=RedditPost,
+            items_key="posts",
         )
 
     def get_user(self, username: str) -> APIResponse[RedditUser]:
@@ -62,6 +64,7 @@ class AsyncReddit(AsyncAPIResource):
             f"/reddit/subreddits/{name}/posts",
             params={"sort": sort, "count": count},
             cast_to=RedditPost,
+            items_key="posts",
         )
 
     async def get_post(self, post_id: str) -> APIResponse[RedditPost]:
@@ -78,6 +81,7 @@ class AsyncReddit(AsyncAPIResource):
             "/reddit/posts/search",
             params={"q": q, "sort": sort, "count": count},
             cast_to=RedditPost,
+            items_key="posts",
         )
 
     async def get_user(self, username: str) -> APIResponse[RedditUser]:

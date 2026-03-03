@@ -35,7 +35,8 @@ class Threads(APIResource):
         self, q: str, *, count: int | None = None
     ) -> APIResponse[list[ThreadsPost]]:
         return self._get(
-            "/threads/posts/search", params={"q": q, "count": count}, cast_to=ThreadsPost
+            "/threads/posts/search", params={"q": q, "count": count}, cast_to=ThreadsPost,
+            items_key="posts",
         )
 
     def get_user(self, username: str) -> APIResponse[ThreadsUser]:
@@ -159,7 +160,8 @@ class AsyncThreads(AsyncAPIResource):
         self, q: str, *, count: int | None = None
     ) -> APIResponse[list[ThreadsPost]]:
         return await self._get(
-            "/threads/posts/search", params={"q": q, "count": count}, cast_to=ThreadsPost
+            "/threads/posts/search", params={"q": q, "count": count}, cast_to=ThreadsPost,
+            items_key="posts",
         )
 
     async def get_user(self, username: str) -> APIResponse[ThreadsUser]:
