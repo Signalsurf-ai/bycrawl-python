@@ -42,8 +42,9 @@ class LinkedIn(APIResource):
     ) -> APIResponse[list[LinkedInJob]]:
         return self._get(
             "/linkedin/jobs/search",
-            params={"q": q, "location": location, "count": count},
+            params={"query": q, "location": location, "count": count},
             cast_to=LinkedInJob,
+            items_key="jobs",
         )
 
     def get_job(self, job_id: str) -> APIResponse[LinkedInJob]:
@@ -89,7 +90,7 @@ class LinkedIn(APIResource):
     ) -> Iterator[LinkedInJob]:
         return self._paginate_by_offset(
             "/linkedin/jobs/search",
-            params={"q": q, "location": location, "count": count or 10, "limit": count or 10},
+            params={"query": q, "location": location, "count": count or 10, "limit": count or 10},
             items_key="jobs",
             cast_to=LinkedInJob,
         )
@@ -122,8 +123,9 @@ class AsyncLinkedIn(AsyncAPIResource):
     ) -> APIResponse[list[LinkedInJob]]:
         return await self._get(
             "/linkedin/jobs/search",
-            params={"q": q, "location": location, "count": count},
+            params={"query": q, "location": location, "count": count},
             cast_to=LinkedInJob,
+            items_key="jobs",
         )
 
     async def get_job(self, job_id: str) -> APIResponse[LinkedInJob]:
@@ -170,7 +172,7 @@ class AsyncLinkedIn(AsyncAPIResource):
     ) -> AsyncIterator[LinkedInJob]:
         async for item in self._paginate_by_offset(
             "/linkedin/jobs/search",
-            params={"q": q, "location": location, "count": count or 10, "limit": count or 10},
+            params={"query": q, "location": location, "count": count or 10, "limit": count or 10},
             items_key="jobs",
             cast_to=LinkedInJob,
         ):

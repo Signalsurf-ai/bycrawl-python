@@ -22,8 +22,9 @@ class Xiaohongshu(APIResource):
     ) -> APIResponse[list[XiaohongshuNote]]:
         return self._get(
             "/xiaohongshu/notes/search",
-            params={"q": q, "sort": sort},
+            params={"keyword": q, "sort": sort},
             cast_to=XiaohongshuNote,
+            items_key="notes",
         )
 
     def get_note(self, note_id: str) -> APIResponse[XiaohongshuNote]:
@@ -48,7 +49,7 @@ class Xiaohongshu(APIResource):
 
     def search_users(self, q: str) -> APIResponse[list[XiaohongshuUser]]:
         return self._get(
-            "/xiaohongshu/users/search", params={"q": q}, cast_to=XiaohongshuUser
+            "/xiaohongshu/users/search", params={"keyword": q}, cast_to=XiaohongshuUser
         )
 
     def get_user(self, user_id: str) -> APIResponse[XiaohongshuUser]:
@@ -70,7 +71,7 @@ class Xiaohongshu(APIResource):
     ) -> Iterator[XiaohongshuNote]:
         return self._paginate_by_page(
             "/xiaohongshu/notes/search",
-            params={"q": q, "sort": sort},
+            params={"keyword": q, "sort": sort},
             items_key="notes",
             cast_to=XiaohongshuNote,
         )
@@ -100,8 +101,9 @@ class AsyncXiaohongshu(AsyncAPIResource):
     ) -> APIResponse[list[XiaohongshuNote]]:
         return await self._get(
             "/xiaohongshu/notes/search",
-            params={"q": q, "sort": sort},
+            params={"keyword": q, "sort": sort},
             cast_to=XiaohongshuNote,
+            items_key="notes",
         )
 
     async def get_note(self, note_id: str) -> APIResponse[XiaohongshuNote]:
@@ -128,7 +130,7 @@ class AsyncXiaohongshu(AsyncAPIResource):
 
     async def search_users(self, q: str) -> APIResponse[list[XiaohongshuUser]]:
         return await self._get(
-            "/xiaohongshu/users/search", params={"q": q}, cast_to=XiaohongshuUser
+            "/xiaohongshu/users/search", params={"keyword": q}, cast_to=XiaohongshuUser
         )
 
     async def get_user(self, user_id: str) -> APIResponse[XiaohongshuUser]:
@@ -156,7 +158,7 @@ class AsyncXiaohongshu(AsyncAPIResource):
     ) -> AsyncIterator[XiaohongshuNote]:
         async for item in self._paginate_by_page(
             "/xiaohongshu/notes/search",
-            params={"q": q, "sort": sort},
+            params={"keyword": q, "sort": sort},
             items_key="notes",
             cast_to=XiaohongshuNote,
         ):
