@@ -9,6 +9,7 @@ from .linkedin import AsyncLinkedIn, LinkedIn
 from .reddit import AsyncReddit, Reddit
 from .threads import AsyncThreads, Threads
 from .tiktok import AsyncTikTok, TikTok
+from .webfetch import AsyncWebFetch, WebFetch
 from .x import AsyncX, X
 from .youtube import AsyncYouTube, YouTube
 
@@ -24,4 +25,5 @@ __all__ = [
     "Dcard", "AsyncDcard",
     "GMaps", "AsyncGMaps",
     "Job104", "AsyncJob104",
+    "WebFetch", "AsyncWebFetch",
 ]

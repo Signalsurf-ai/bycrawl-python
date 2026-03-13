@@ -28,6 +28,7 @@ from .platforms.linkedin import AsyncLinkedIn, LinkedIn
 from .platforms.reddit import AsyncReddit, Reddit
 from .platforms.threads import AsyncThreads, Threads
 from .platforms.tiktok import AsyncTikTok, TikTok
+from .platforms.webfetch import AsyncWebFetch, WebFetch
 from .platforms.x import AsyncX, X
 from .platforms.youtube import AsyncYouTube, YouTube
 
@@ -58,6 +59,7 @@ class ByCrawl:
     dcard: Dcard
     gmaps: GMaps
     job104: Job104
+    web: WebFetch
 
     def __init__(
         self,
@@ -93,6 +95,7 @@ class ByCrawl:
         self.dcard = Dcard(self._transport)
         self.gmaps = GMaps(self._transport)
         self.job104 = Job104(self._transport)
+        self.web = WebFetch(self._transport)
 
     def close(self) -> None:
         self._transport.close()
@@ -125,6 +128,7 @@ class AsyncByCrawl:
     dcard: AsyncDcard
     gmaps: AsyncGMaps
     job104: AsyncJob104
+    web: AsyncWebFetch
 
     def __init__(
         self,
@@ -160,6 +164,7 @@ class AsyncByCrawl:
         self.dcard = AsyncDcard(self._transport)
         self.gmaps = AsyncGMaps(self._transport)
         self.job104 = AsyncJob104(self._transport)
+        self.web = AsyncWebFetch(self._transport)
 
     async def close(self) -> None:
         await self._transport.close()

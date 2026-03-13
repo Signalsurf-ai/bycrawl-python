@@ -19,11 +19,12 @@ class Reddit(APIResource):
         name: str,
         *,
         sort: str | None = None,
+        t: str | None = None,
         count: int | None = None,
     ) -> APIResponse[list[RedditPost]]:
         return self._get(
             f"/reddit/subreddits/{name}/posts",
-            params={"sort": sort, "count": count},
+            params={"sort": sort, "t": t, "count": count},
             cast_to=RedditPost,
         )
 
@@ -72,11 +73,12 @@ class AsyncReddit(AsyncAPIResource):
         name: str,
         *,
         sort: str | None = None,
+        t: str | None = None,
         count: int | None = None,
     ) -> APIResponse[list[RedditPost]]:
         return await self._get(
             f"/reddit/subreddits/{name}/posts",
-            params={"sort": sort, "count": count},
+            params={"sort": sort, "t": t, "count": count},
             cast_to=RedditPost,
         )
 

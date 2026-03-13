@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
 from .._resource import APIResource, AsyncAPIResource
@@ -64,6 +65,25 @@ class Facebook(APIResource):
     def marketplace_item(self, listing_id: str) -> APIResponse[dict[str, Any]]:
         return self._get(f"/facebook/marketplace/items/{listing_id}")
 
+    # -- Auto-pagination iterators --
+
+    def iter_post_comments(self, *, url: str) -> Iterator[dict[str, Any]]:
+        return self._paginate(
+            "/facebook/posts/comments",
+            params={"url": url},
+            items_key="comments",
+        )
+
+    def iter_search_posts(
+        self, q: str, *, count: int | None = None
+    ) -> Iterator[FacebookPost]:
+        return self._paginate(
+            "/facebook/posts/search",
+            params={"q": q, "count": count},
+            items_key="posts",
+            cast_to=FacebookPost,
+        )
+
 
 class AsyncFacebook(AsyncAPIResource):
     """Async Facebook namespace."""
@@ -120,3 +140,24 @@ class AsyncFacebook(AsyncAPIResource):
 
     async def marketplace_item(self, listing_id: str) -> APIResponse[dict[str, Any]]:
         return await self._get(f"/facebook/marketplace/items/{listing_id}")
+
+    # -- Auto-pagination iterators --
+
+    async def iter_post_comments(self, *, url: str) -> AsyncIterator[dict[str, Any]]:
+        async for item in self._paginate(
+            "/facebook/posts/comments",
+            params={"url": url},
+            items_key="comments",
+        ):
+            yield item
+
+    async def iter_search_posts(
+        self, q: str, *, count: int | None = None
+    ) -> AsyncIterator[FacebookPost]:
+        async for item in self._paginate(
+            "/facebook/posts/search",
+            params={"q": q, "count": count},
+            items_key="posts",
+            cast_to=FacebookPost,
+        ):
+            yield item
