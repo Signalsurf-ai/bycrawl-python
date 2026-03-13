@@ -713,13 +713,19 @@ class TestJob104:
     def test_search_jobs(self, respx_mock: respx.Router):
         respx_mock.get("/job104/jobs/search").mock(
             return_value=httpx.Response(200, json={
-                "data": [{"id": "1", "title": "SWE"}]
+                "jobs": [
+                    {"jobId": "1", "jobName": "SWE", "companyName": "Acme", "area": "Taipei"}
+                ],
+                "totalCount": 1,
+                "page": 1,
             })
         )
         client = ByCrawl(api_key="sk_byc_test")
         resp = client.job104.search_jobs(q="python")
         assert len(resp.data) == 1
         assert isinstance(resp.data[0], Job104Job)
+        assert resp.data[0].id == "1"
+        assert resp.data[0].title == "SWE"
         client.close()
 
     @respx.mock(base_url="https://api.bycrawl.com")

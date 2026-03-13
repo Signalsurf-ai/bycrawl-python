@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
 T = TypeVar("T")
@@ -257,10 +257,14 @@ class LinkedInCompany(_Base):
     description: str | None = None
     website: str | None = None
     industry: str | None = None
-    company_size: str | None = None
+    company_size: str | None = Field(None, alias="size")
     headquarters: str | None = None
-    logo_url: str | None = None
+    logo_url: str | None = Field(None, alias="logo")
+    banner: str | None = None
+    employee_count: int | str | None = None
     follower_count: int | None = None
+    specialties: list[str] | None = None
+    founded: str | None = None
 
 
 class LinkedInJob(_Base):
@@ -316,13 +320,14 @@ class TikTokVideo(_Base):
 class TikTokUser(_Base):
     id: str | None = None
     username: str | None = None
-    nickname: str | None = None
-    avatar: str | None = None
+    nickname: str | None = Field(None, alias="displayName")
+    avatar: str | None = Field(None, alias="avatarUrl")
+    bio: str | None = None
     signature: str | None = None
     verified: bool = False
-    follower_count: int | None = None
-    following_count: int | None = None
-    heart_count: int | None = None
+    follower_count: int | None = Field(None, alias="followers")
+    following_count: int | None = Field(None, alias="following")
+    heart_count: int | None = Field(None, alias="hearts")
     video_count: int | None = None
 
 
@@ -346,15 +351,17 @@ class TikTokCategory(_Base):
 
 
 class Job104Job(_Base):
-    id: str | None = None
-    title: str | None = None
+    id: str | None = Field(None, alias="jobId")
+    title: str | None = Field(None, alias="jobName")
+    company_id: str | None = None
     company_name: str | None = None
-    location: str | None = None
+    location: str | None = Field(None, alias="area")
     description: str | None = None
     salary: str | None = None
     employment_type: str | None = None
-    posted_at: str | None = None
-    url: str | None = None
+    posted_at: str | None = Field(None, alias="appearedAt")
+    url: str | None = Field(None, alias="link")
+    tags: list[str] = []
     requirements: list[str] = []
 
 
