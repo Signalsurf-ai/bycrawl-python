@@ -45,7 +45,7 @@ class TikTok(APIResource):
         self, keyword: str, *, count: int | None = None
     ) -> APIResponse[dict[str, Any]]:
         return self._get(
-            "/tiktok/search", params={"keyword": keyword, "count": count}
+            "/tiktok/videos/search", params={"q": keyword, "count": count}
         )
 
     def get_video_subtitles(
@@ -100,7 +100,7 @@ class AsyncTikTok(AsyncAPIResource):
         self, keyword: str, *, count: int | None = None
     ) -> APIResponse[dict[str, Any]]:
         return await self._get(
-            "/tiktok/search", params={"keyword": keyword, "count": count}
+            "/tiktok/videos/search", params={"q": keyword, "count": count}
         )
 
     async def get_video_subtitles(

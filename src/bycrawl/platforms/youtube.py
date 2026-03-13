@@ -21,7 +21,7 @@ class YouTube(APIResource):
     def search(
         self, q: str, *, count: int | None = None
     ) -> APIResponse[dict[str, Any]]:
-        return self._get("/youtube/search", params={"q": q, "count": count})
+        return self._get("/youtube/videos/search", params={"q": q, "count": count})
 
     def get_video_comments(
         self, video_id: str, *, count: int | None = None
@@ -43,7 +43,7 @@ class YouTube(APIResource):
         self, q: str, *, count: int | None = None
     ) -> Iterator[YouTubeVideo]:
         return self._paginate(
-            "/youtube/search",
+            "/youtube/videos/search",
             params={"q": q, "count": count},
             items_key="videos",
             cast_to=YouTubeVideo,
@@ -72,7 +72,7 @@ class AsyncYouTube(AsyncAPIResource):
     async def search(
         self, q: str, *, count: int | None = None
     ) -> APIResponse[dict[str, Any]]:
-        return await self._get("/youtube/search", params={"q": q, "count": count})
+        return await self._get("/youtube/videos/search", params={"q": q, "count": count})
 
     async def get_video_comments(
         self, video_id: str, *, count: int | None = None
@@ -94,7 +94,7 @@ class AsyncYouTube(AsyncAPIResource):
         self, q: str, *, count: int | None = None
     ) -> AsyncIterator[YouTubeVideo]:
         async for item in self._paginate(
-            "/youtube/search",
+            "/youtube/videos/search",
             params={"q": q, "count": count},
             items_key="videos",
             cast_to=YouTubeVideo,

@@ -529,7 +529,7 @@ class TestTikTok:
 
     @respx.mock(base_url="https://api.bycrawl.com")
     def test_search(self, respx_mock: respx.Router):
-        respx_mock.get("/tiktok/search").mock(
+        respx_mock.get("/tiktok/videos/search").mock(
             return_value=httpx.Response(200, json={"data": {"videos": []}})
         )
         client = ByCrawl(api_key="sk_byc_test")
@@ -590,7 +590,7 @@ class TestYouTube:
 
     @respx.mock(base_url="https://api.bycrawl.com")
     def test_search(self, respx_mock: respx.Router):
-        respx_mock.get("/youtube/search").mock(
+        respx_mock.get("/youtube/videos/search").mock(
             return_value=httpx.Response(200, json={"data": {"videos": []}})
         )
         client = ByCrawl(api_key="sk_byc_test")
@@ -653,7 +653,7 @@ class TestDcard:
 
     @respx.mock(base_url="https://api.bycrawl.com")
     def test_search_posts(self, respx_mock: respx.Router):
-        respx_mock.get("/dcard/search/posts").mock(
+        respx_mock.get("/dcard/posts/search").mock(
             return_value=httpx.Response(200, json={"data": {"posts": []}})
         )
         client = ByCrawl(api_key="sk_byc_test")
@@ -682,7 +682,7 @@ class TestDcard:
 class TestGMaps:
     @respx.mock(base_url="https://api.bycrawl.com")
     def test_search(self, respx_mock: respx.Router):
-        respx_mock.get("/gmaps/search").mock(
+        respx_mock.get("/gmaps/places/search").mock(
             return_value=httpx.Response(200, json={"data": {"places": []}})
         )
         client = ByCrawl(api_key="sk_byc_test")
