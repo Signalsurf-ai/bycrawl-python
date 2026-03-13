@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from .._resource import APIResource, AsyncAPIResource
 from .._types import APIResponse, RedditPost, RedditUser, Subreddit
 
@@ -44,6 +46,20 @@ class Reddit(APIResource):
     def get_user(self, username: str) -> APIResponse[RedditUser]:
         return self._get(f"/reddit/users/{username}", cast_to=RedditUser)
 
+    def get_user_posts(
+        self,
+        username: str,
+        *,
+        sort: str | None = None,
+        t: str | None = None,
+        count: int | None = None,
+        after: str | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            f"/reddit/users/{username}/posts",
+            params={"sort": sort, "t": t, "count": count, "after": after},
+        )
+
 
 class AsyncReddit(AsyncAPIResource):
     """Async Reddit namespace."""
@@ -82,3 +98,17 @@ class AsyncReddit(AsyncAPIResource):
 
     async def get_user(self, username: str) -> APIResponse[RedditUser]:
         return await self._get(f"/reddit/users/{username}", cast_to=RedditUser)
+
+    async def get_user_posts(
+        self,
+        username: str,
+        *,
+        sort: str | None = None,
+        t: str | None = None,
+        count: int | None = None,
+        after: str | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            f"/reddit/users/{username}/posts",
+            params={"sort": sort, "t": t, "count": count, "after": after},
+        )
