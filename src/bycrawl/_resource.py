@@ -49,10 +49,22 @@ def _parse_credit(headers: dict[str, str]) -> CreditInfo | None:
 def _wrap_response(wrapper: ResponseWrapper, cast_to: _ModelT | None = None) -> APIResponse:  # type: ignore[type-arg]
     """Build an APIResponse from a ResponseWrapper."""
     data = wrapper.data
-    body_data = data.get("data") if isinstance(data, dict) else data
-    success = data.get("success", True) if isinstance(data, dict) else True
-    error = data.get("error") if isinstance(data, dict) else None
-    queued = data.get("queued", False) if isinstance(data, dict) else False
+    if isinstance(data, dict) and "data" in data:
+        body_data = data["data"]
+        success = data.get("success", True)
+        error = data.get("error")
+        queued = data.get("queued", False)
+    elif isinstance(data, dict) and "error" in data:
+        body_data = None
+        success = False
+        error = data.get("error")
+        queued = False
+    else:
+        # API returns raw data without envelope
+        body_data = data
+        success = True
+        error = None
+        queued = False
 
     parsed: Any = body_data
     if cast_to is not None and body_data is not None:
