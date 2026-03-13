@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from collections.abc import AsyncIterator, Iterator
-from typing import Any
 
 from .._resource import APIResource, AsyncAPIResource
 from .._types import APIResponse, Job104Company, Job104Job
@@ -21,7 +20,7 @@ class Job104(APIResource):
         page: int | None = None,
         count: int | None = None,
     ) -> APIResponse[list[Job104Job]]:
-        resp = self._get(
+        return self._get_list(
             "/job104/jobs/search",
             params={
                 "q": q,
@@ -30,12 +29,9 @@ class Job104(APIResource):
                 "page": page,
                 "count": count,
             },
+            items_key="jobs",
+            cast_to=Job104Job,
         )
-        # API returns {"jobs": [...], "totalCount": N, "page": N}
-        raw = resp.data
-        if isinstance(raw, dict) and "jobs" in raw:
-            resp.data = [Job104Job.model_validate(j) for j in raw["jobs"]]
-        return resp
 
     def get_company(self, company_id: str) -> APIResponse[Job104Company]:
         return self._get(f"/job104/companies/{company_id}", cast_to=Job104Company)
@@ -74,7 +70,7 @@ class AsyncJob104(AsyncAPIResource):
         page: int | None = None,
         count: int | None = None,
     ) -> APIResponse[list[Job104Job]]:
-        resp = await self._get(
+        return await self._get_list(
             "/job104/jobs/search",
             params={
                 "q": q,
@@ -83,11 +79,9 @@ class AsyncJob104(AsyncAPIResource):
                 "page": page,
                 "count": count,
             },
+            items_key="jobs",
+            cast_to=Job104Job,
         )
-        raw = resp.data
-        if isinstance(raw, dict) and "jobs" in raw:
-            resp.data = [Job104Job.model_validate(j) for j in raw["jobs"]]
-        return resp
 
     async def get_company(self, company_id: str) -> APIResponse[Job104Company]:
         return await self._get(f"/job104/companies/{company_id}", cast_to=Job104Company)

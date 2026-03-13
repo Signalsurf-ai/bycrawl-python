@@ -41,9 +41,10 @@ class LinkedIn(APIResource):
         count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[list[LinkedInJob]]:
-        return self._get(
+        return self._get_list(
             "/linkedin/jobs/search",
             params={"query": query, "location": location, "count": count, "offset": offset},
+            items_key="jobs",
             cast_to=LinkedInJob,
         )
 
@@ -60,9 +61,10 @@ class LinkedIn(APIResource):
         count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[list[LinkedInUser]]:
-        return self._get(
+        return self._get_list(
             "/linkedin/users/search",
             params={"query": query, "count": count, "offset": offset},
+            items_key="users",
             cast_to=LinkedInUser,
         )
 
@@ -127,9 +129,10 @@ class AsyncLinkedIn(AsyncAPIResource):
         count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[list[LinkedInJob]]:
-        return await self._get(
+        return await self._get_list(
             "/linkedin/jobs/search",
             params={"query": query, "location": location, "count": count, "offset": offset},
+            items_key="jobs",
             cast_to=LinkedInJob,
         )
 
@@ -146,9 +149,10 @@ class AsyncLinkedIn(AsyncAPIResource):
         count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[list[LinkedInUser]]:
-        return await self._get(
+        return await self._get_list(
             "/linkedin/users/search",
             params={"query": query, "count": count, "offset": offset},
+            items_key="users",
             cast_to=LinkedInUser,
         )
 

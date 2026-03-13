@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
 
 T = TypeVar("T")
@@ -22,6 +22,21 @@ T = TypeVar("T")
 
 class _Base(BaseModel):
     model_config = ConfigDict(extra="allow", alias_generator=to_camel, populate_by_name=True)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _coerce_null_bools(cls, values: Any) -> Any:
+        """Coerce null values to defaults for bool fields so the API
+        returning ``"isVerified": null`` doesn't cause validation errors."""
+        if not isinstance(values, dict):
+            return values
+        for name, field_info in cls.model_fields.items():
+            if field_info.annotation is bool and field_info.default is not None:
+                # Check both snake_case and camelCase keys
+                for key in (name, to_camel(name)):
+                    if key in values and values[key] is None:
+                        values[key] = field_info.default
+        return values
 
 
 # ---------------------------------------------------------------------------
@@ -230,7 +245,7 @@ class RedditPost(_Base):
     subreddit: str | None = None
     score: int | None = None
     upvote_ratio: float | None = None
-    num_comments: int | None = None
+    num_comments: int | None = Field(None, alias="commentCount")
     created_at: str | None = None
     permalink: str | None = None
     is_nsfw: bool = False
@@ -270,12 +285,13 @@ class LinkedInCompany(_Base):
 class LinkedInJob(_Base):
     id: str | None = None
     title: str | None = None
-    company_name: str | None = None
+    company: str | None = None
+    company_id: str | None = None
     location: str | None = None
     description: str | None = None
     employment_type: str | None = None
     posted_at: str | None = None
-    url: str | None = None
+    url: str | None = Field(None, alias="applyUrl")
 
 
 class LinkedInPost(_Base):

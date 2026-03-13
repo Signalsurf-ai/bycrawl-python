@@ -110,6 +110,29 @@ class APIResource:
     ) -> APIResponse:  # type: ignore[type-arg]
         return self._request("POST", path, body=body, cast_to=cast_to)
 
+    def _get_list(
+        self,
+        path: str,
+        *,
+        params: dict[str, Any] | None = None,
+        items_key: str,
+        cast_to: _ModelT,
+    ) -> APIResponse:  # type: ignore[type-arg]
+        """GET that extracts a list from a nested response like {"posts": [...]}."""
+        resp = self._get(path, params=params)
+        raw = resp.data
+        if isinstance(raw, dict) and items_key in raw:
+            try:
+                resp.data = [cast_to.model_validate(item) for item in raw[items_key]]
+            except ValidationError as exc:
+                raise ByCrawlError(f"Response parsing failed: {exc}") from exc
+        elif isinstance(raw, list):
+            try:
+                resp.data = [cast_to.model_validate(item) for item in raw]
+            except ValidationError as exc:
+                raise ByCrawlError(f"Response parsing failed: {exc}") from exc
+        return resp
+
     def _request(
         self,
         method: str,
@@ -231,6 +254,29 @@ class AsyncAPIResource:
         cast_to: _ModelT | None = None,
     ) -> APIResponse:  # type: ignore[type-arg]
         return await self._request("GET", path, params=params, cast_to=cast_to)
+
+    async def _get_list(
+        self,
+        path: str,
+        *,
+        params: dict[str, Any] | None = None,
+        items_key: str,
+        cast_to: _ModelT,
+    ) -> APIResponse:  # type: ignore[type-arg]
+        """GET that extracts a list from a nested response like {"posts": [...]}."""
+        resp = await self._get(path, params=params)
+        raw = resp.data
+        if isinstance(raw, dict) and items_key in raw:
+            try:
+                resp.data = [cast_to.model_validate(item) for item in raw[items_key]]
+            except ValidationError as exc:
+                raise ByCrawlError(f"Response parsing failed: {exc}") from exc
+        elif isinstance(raw, list):
+            try:
+                resp.data = [cast_to.model_validate(item) for item in raw]
+            except ValidationError as exc:
+                raise ByCrawlError(f"Response parsing failed: {exc}") from exc
+        return resp
 
     async def _post(
         self,
