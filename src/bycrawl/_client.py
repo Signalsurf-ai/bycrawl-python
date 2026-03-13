@@ -19,7 +19,9 @@ from ._http import (
     AsyncTransport,
     SyncTransport,
 )
+from .platforms.dcard import AsyncDcard, Dcard
 from .platforms.facebook import AsyncFacebook, Facebook
+from .platforms.gmaps import AsyncGMaps, GMaps
 from .platforms.instagram import AsyncInstagram, Instagram
 from .platforms.job104 import AsyncJob104, Job104
 from .platforms.linkedin import AsyncLinkedIn, LinkedIn
@@ -27,7 +29,7 @@ from .platforms.reddit import AsyncReddit, Reddit
 from .platforms.threads import AsyncThreads, Threads
 from .platforms.tiktok import AsyncTikTok, TikTok
 from .platforms.x import AsyncX, X
-from .platforms.xiaohongshu import AsyncXiaohongshu, Xiaohongshu
+from .platforms.youtube import AsyncYouTube, YouTube
 
 
 class ByCrawl:
@@ -51,8 +53,10 @@ class ByCrawl:
     instagram: Instagram
     reddit: Reddit
     linkedin: LinkedIn
-    xiaohongshu: Xiaohongshu
     tiktok: TikTok
+    youtube: YouTube
+    dcard: Dcard
+    gmaps: GMaps
     job104: Job104
 
     def __init__(
@@ -84,8 +88,10 @@ class ByCrawl:
         self.instagram = Instagram(self._transport)
         self.reddit = Reddit(self._transport)
         self.linkedin = LinkedIn(self._transport)
-        self.xiaohongshu = Xiaohongshu(self._transport)
         self.tiktok = TikTok(self._transport)
+        self.youtube = YouTube(self._transport)
+        self.dcard = Dcard(self._transport)
+        self.gmaps = GMaps(self._transport)
         self.job104 = Job104(self._transport)
 
     def close(self) -> None:
@@ -114,8 +120,10 @@ class AsyncByCrawl:
     instagram: AsyncInstagram
     reddit: AsyncReddit
     linkedin: AsyncLinkedIn
-    xiaohongshu: AsyncXiaohongshu
     tiktok: AsyncTikTok
+    youtube: AsyncYouTube
+    dcard: AsyncDcard
+    gmaps: AsyncGMaps
     job104: AsyncJob104
 
     def __init__(
@@ -147,8 +155,10 @@ class AsyncByCrawl:
         self.instagram = AsyncInstagram(self._transport)
         self.reddit = AsyncReddit(self._transport)
         self.linkedin = AsyncLinkedIn(self._transport)
-        self.xiaohongshu = AsyncXiaohongshu(self._transport)
         self.tiktok = AsyncTikTok(self._transport)
+        self.youtube = AsyncYouTube(self._transport)
+        self.dcard = AsyncDcard(self._transport)
+        self.gmaps = AsyncGMaps(self._transport)
         self.job104 = AsyncJob104(self._transport)
 
     async def close(self) -> None:

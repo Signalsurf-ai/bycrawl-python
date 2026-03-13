@@ -48,6 +48,11 @@ class TikTok(APIResource):
             "/tiktok/search", params={"keyword": keyword, "count": count}
         )
 
+    def get_video_subtitles(
+        self, video_id: str
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(f"/tiktok/videos/{video_id}/subtitles")
+
     # -- Auto-pagination iterators --
 
     def iter_video_comments(self, video_id: str) -> Iterator[TikTokComment]:
@@ -97,6 +102,11 @@ class AsyncTikTok(AsyncAPIResource):
         return await self._get(
             "/tiktok/search", params={"keyword": keyword, "count": count}
         )
+
+    async def get_video_subtitles(
+        self, video_id: str
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(f"/tiktok/videos/{video_id}/subtitles")
 
     # -- Auto-pagination iterators --
 

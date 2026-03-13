@@ -296,47 +296,6 @@ class LinkedInUser(_Base):
 
 
 # ---------------------------------------------------------------------------
-# Xiaohongshu
-# ---------------------------------------------------------------------------
-
-
-class XiaohongshuNote(_Base):
-    id: str | None = None
-    title: str | None = None
-    description: str | None = None
-    type: str | None = None
-    liked_count: int | None = None
-    collected_count: int | None = None
-    comment_count: int | None = None
-    share_count: int | None = None
-    created_at: str | None = None
-    user: dict[str, Any] | None = None
-    images: list[dict[str, Any]] = []
-
-
-class XiaohongshuUser(_Base):
-    id: str | None = None
-    nickname: str | None = None
-    avatar: str | None = None
-    description: str | None = None
-    gender: str | None = None
-    ip_location: str | None = None
-    follower_count: int | None = None
-    following_count: int | None = None
-    note_count: int | None = None
-    liked_count: int | None = None
-
-
-class XiaohongshuComment(_Base):
-    id: str | None = None
-    content: str | None = None
-    user: dict[str, Any] | None = None
-    like_count: int | None = None
-    created_at: str | None = None
-    sub_comment_count: int | None = None
-
-
-# ---------------------------------------------------------------------------
 # TikTok
 # ---------------------------------------------------------------------------
 
@@ -426,3 +385,106 @@ class BulkJobStatus(_Base):
 class BulkJob(_Base):
     job_id: str
     status: str = "queued"
+
+
+# ---------------------------------------------------------------------------
+# YouTube
+# ---------------------------------------------------------------------------
+
+
+class YouTubeVideo(_Base):
+    id: str | None = None
+    title: str | None = None
+    description: str | None = None
+    channel_id: str | None = None
+    channel_title: str | None = None
+    view_count: int | None = None
+    like_count: int | None = None
+    comment_count: int | None = None
+    duration: str | None = None
+    published_at: str | None = None
+    thumbnail: str | None = None
+    keywords: list[str] = []
+
+
+class YouTubeChannel(_Base):
+    id: str | None = None
+    title: str | None = None
+    description: str | None = None
+    subscriber_count: int | None = None
+    video_count: int | None = None
+    view_count: int | None = None
+    thumbnail: str | None = None
+    banner: str | None = None
+    created_at: str | None = None
+    country: str | None = None
+
+
+class YouTubeComment(_Base):
+    id: str | None = None
+    text: str | None = None
+    author: str | None = None
+    author_channel_id: str | None = None
+    author_avatar: str | None = None
+    is_verified: bool = False
+    like_count: int | None = None
+    reply_count: int | None = None
+    published_at: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# Dcard
+# ---------------------------------------------------------------------------
+
+
+class DcardForum(_Base):
+    alias: str | None = None
+    name: str | None = None
+    description: str | None = None
+    is_school: bool = False
+    post_count: dict[str, Any] | None = None
+    subscription_count: int | None = None
+
+
+class DcardPost(_Base):
+    id: int | None = None
+    title: str | None = None
+    excerpt: str | None = None
+    content: str | None = None
+    created_at: str | None = None
+    updated_at: str | None = None
+    forum_alias: str | None = None
+    forum_name: str | None = None
+    comment_count: int | None = None
+    like_count: int | None = None
+    topics: list[str] = []
+    media: list[dict[str, Any]] = []
+
+
+class DcardPersona(_Base):
+    username: str | None = None
+    nickname: str | None = None
+    post_count: int | None = None
+    gender: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# Google Maps
+# ---------------------------------------------------------------------------
+
+
+class GMapsPlace(_Base):
+    name: str | None = None
+    category: str | None = None
+    address: str | None = None
+    website: str | None = None
+    phone: str | None = None
+    rating: float | None = None
+    description: str | None = None
+    hours: str | None = None
+    lat: float | None = None
+    lng: float | None = None
+    place_id: str | None = None
+    price_level: str | None = None
+    photo_count: int | None = None
+    url: str | None = None

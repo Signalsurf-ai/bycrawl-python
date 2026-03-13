@@ -1,0 +1,76 @@
+"""Dcard platform namespace."""
+
+from __future__ import annotations
+
+from typing import Any
+
+from .._resource import APIResource, AsyncAPIResource
+from .._types import APIResponse, DcardForum, DcardPersona
+
+
+class Dcard(APIResource):
+    """Sync Dcard namespace."""
+
+    def get_forum(self, alias: str) -> APIResponse[DcardForum]:
+        return self._get(f"/dcard/forums/{alias}", cast_to=DcardForum)
+
+    def get_forum_posts(
+        self,
+        alias: str,
+        *,
+        limit: int | None = None,
+        popular: bool | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            f"/dcard/forums/{alias}/posts",
+            params={"limit": limit, "popular": popular},
+        )
+
+    def search_posts(
+        self,
+        q: str,
+        *,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            "/dcard/search/posts",
+            params={"q": q, "limit": limit, "offset": offset},
+        )
+
+    def get_persona(self, username: str) -> APIResponse[DcardPersona]:
+        return self._get(f"/dcard/personas/{username}", cast_to=DcardPersona)
+
+
+class AsyncDcard(AsyncAPIResource):
+    """Async Dcard namespace."""
+
+    async def get_forum(self, alias: str) -> APIResponse[DcardForum]:
+        return await self._get(f"/dcard/forums/{alias}", cast_to=DcardForum)
+
+    async def get_forum_posts(
+        self,
+        alias: str,
+        *,
+        limit: int | None = None,
+        popular: bool | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            f"/dcard/forums/{alias}/posts",
+            params={"limit": limit, "popular": popular},
+        )
+
+    async def search_posts(
+        self,
+        q: str,
+        *,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            "/dcard/search/posts",
+            params={"q": q, "limit": limit, "offset": offset},
+        )
+
+    async def get_persona(self, username: str) -> APIResponse[DcardPersona]:
+        return await self._get(f"/dcard/personas/{username}", cast_to=DcardPersona)

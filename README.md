@@ -2,7 +2,7 @@
 
 The official Python SDK for the [ByCrawl](https://bycrawl.com) social media data API.
 
-Supports **Threads, Facebook, X (Twitter), Instagram, Reddit, LinkedIn, Xiaohongshu, TikTok, and 104**.
+Supports **Threads, Facebook, X (Twitter), Instagram, Reddit, LinkedIn, TikTok, YouTube, Dcard, Google Maps, and 104**.
 
 ## Installation
 
@@ -75,18 +75,35 @@ posts = client.reddit.get_subreddit_posts("python", sort="hot")
 
 ```python
 company = client.linkedin.get_company("google")
-jobs = client.linkedin.search_jobs("software engineer", location="Taiwan")
+jobs = client.linkedin.search_jobs(query="software engineer", location="Taiwan")
 
 # Auto-paginate jobs
-for job in client.linkedin.iter_search_jobs("data scientist"):
+for job in client.linkedin.iter_search_jobs(query="data scientist"):
     print(job.title, job.location)
 ```
 
-### Xiaohongshu
+### YouTube
 
 ```python
-notes = client.xiaohongshu.search_notes("咖啡推薦")
-note = client.xiaohongshu.get_note("note_id")
+video = client.youtube.get_video("dQw4w9WgXcQ")
+channel = client.youtube.get_channel("@mkbhd")
+results = client.youtube.search("machine learning", count=5)
+transcript = client.youtube.get_video_transcription("dQw4w9WgXcQ", language="en")
+```
+
+### Dcard
+
+```python
+forum = client.dcard.get_forum("trending")
+posts = client.dcard.get_forum_posts("trending", limit=10, popular=True)
+results = client.dcard.search_posts("台大", limit=10)
+```
+
+### Google Maps
+
+```python
+results = client.gmaps.search("coffee shops in Tokyo", language="en")
+place = client.gmaps.get_place("Blue Bottle Coffee Tokyo")
 ```
 
 ### Facebook
