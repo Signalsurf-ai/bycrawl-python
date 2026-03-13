@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
 from .._resource import APIResource, AsyncAPIResource
-from .._types import APIResponse, YouTubeChannel, YouTubeVideo
+from .._types import APIResponse, YouTubeChannel, YouTubeComment, YouTubeVideo
 
 
 class YouTube(APIResource):
@@ -36,6 +37,28 @@ class YouTube(APIResource):
             f"/youtube/videos/{video_id}/transcription", params={"language": language}
         )
 
+    # -- Auto-pagination iterators --
+
+    def iter_search(
+        self, q: str, *, count: int | None = None
+    ) -> Iterator[YouTubeVideo]:
+        return self._paginate(
+            "/youtube/search",
+            params={"q": q, "count": count},
+            items_key="videos",
+            cast_to=YouTubeVideo,
+        )
+
+    def iter_video_comments(
+        self, video_id: str, *, count: int | None = None
+    ) -> Iterator[YouTubeComment]:
+        return self._paginate(
+            f"/youtube/videos/{video_id}/comments",
+            params={"count": count},
+            items_key="comments",
+            cast_to=YouTubeComment,
+        )
+
 
 class AsyncYouTube(AsyncAPIResource):
     """Async YouTube namespace."""
@@ -64,3 +87,27 @@ class AsyncYouTube(AsyncAPIResource):
         return await self._get(
             f"/youtube/videos/{video_id}/transcription", params={"language": language}
         )
+
+    # -- Auto-pagination iterators --
+
+    async def iter_search(
+        self, q: str, *, count: int | None = None
+    ) -> AsyncIterator[YouTubeVideo]:
+        async for item in self._paginate(
+            "/youtube/search",
+            params={"q": q, "count": count},
+            items_key="videos",
+            cast_to=YouTubeVideo,
+        ):
+            yield item
+
+    async def iter_video_comments(
+        self, video_id: str, *, count: int | None = None
+    ) -> AsyncIterator[YouTubeComment]:
+        async for item in self._paginate(
+            f"/youtube/videos/{video_id}/comments",
+            params={"count": count},
+            items_key="comments",
+            cast_to=YouTubeComment,
+        ):
+            yield item

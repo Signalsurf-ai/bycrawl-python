@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
 from .._resource import APIResource, AsyncAPIResource
-from .._types import APIResponse, DcardForum, DcardPersona
+from .._types import APIResponse, DcardForum, DcardPersona, DcardPost
 
 
 class Dcard(APIResource):
@@ -41,6 +42,21 @@ class Dcard(APIResource):
     def get_persona(self, username: str) -> APIResponse[DcardPersona]:
         return self._get(f"/dcard/personas/{username}", cast_to=DcardPersona)
 
+    # -- Auto-pagination iterators --
+
+    def iter_search_posts(
+        self,
+        q: str,
+        *,
+        limit: int | None = None,
+    ) -> Iterator[DcardPost]:
+        return self._paginate_by_offset(
+            "/dcard/search/posts",
+            params={"q": q, "limit": limit or 30},
+            items_key="posts",
+            cast_to=DcardPost,
+        )
+
 
 class AsyncDcard(AsyncAPIResource):
     """Async Dcard namespace."""
@@ -74,3 +90,19 @@ class AsyncDcard(AsyncAPIResource):
 
     async def get_persona(self, username: str) -> APIResponse[DcardPersona]:
         return await self._get(f"/dcard/personas/{username}", cast_to=DcardPersona)
+
+    # -- Auto-pagination iterators --
+
+    async def iter_search_posts(
+        self,
+        q: str,
+        *,
+        limit: int | None = None,
+    ) -> AsyncIterator[DcardPost]:
+        async for item in self._paginate_by_offset(
+            "/dcard/search/posts",
+            params={"q": q, "limit": limit or 30},
+            items_key="posts",
+            cast_to=DcardPost,
+        ):
+            yield item

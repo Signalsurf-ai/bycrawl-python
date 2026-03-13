@@ -79,8 +79,15 @@ class Threads(APIResource):
 
     # -- Bulk operations --
 
-    def bulk_submit(self, ids: list[str]) -> APIResponse[BulkJob]:
-        return self._post("/threads/bulk", body={"ids": ids}, cast_to=BulkJob)
+    def bulk_submit(
+        self,
+        ids: list[str],
+        *,
+        type: str = "content",
+    ) -> APIResponse[BulkJob]:
+        return self._post(
+            "/threads/bulk", body={"ids": ids, "type": type}, cast_to=BulkJob
+        )
 
     def bulk_status(self, job_id: str) -> APIResponse[BulkJobStatus]:
         return self._get(f"/threads/bulk/{job_id}", cast_to=BulkJobStatus)
@@ -205,8 +212,15 @@ class AsyncThreads(AsyncAPIResource):
 
     # -- Bulk operations --
 
-    async def bulk_submit(self, ids: list[str]) -> APIResponse[BulkJob]:
-        return await self._post("/threads/bulk", body={"ids": ids}, cast_to=BulkJob)
+    async def bulk_submit(
+        self,
+        ids: list[str],
+        *,
+        type: str = "content",
+    ) -> APIResponse[BulkJob]:
+        return await self._post(
+            "/threads/bulk", body={"ids": ids, "type": type}, cast_to=BulkJob
+        )
 
     async def bulk_status(self, job_id: str) -> APIResponse[BulkJobStatus]:
         return await self._get(f"/threads/bulk/{job_id}", cast_to=BulkJobStatus)

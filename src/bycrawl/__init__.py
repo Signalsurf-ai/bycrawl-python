@@ -22,10 +22,13 @@ from ._exceptions import (
     ServerError,
     TimeoutError,
 )
+from ._http import SDK_VERSION
 from ._log import enable_logging
 from ._types import APIResponse, CreditInfo, RateLimit
 
+__version__ = SDK_VERSION
 __all__ = [
+    "__version__",
     "ByCrawl",
     "AsyncByCrawl",
     "APIResponse",

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
 from .._resource import APIResource, AsyncAPIResource
@@ -34,6 +35,22 @@ class Instagram(APIResource):
             f"/instagram/users/{username}/posts", params={"cursor": cursor}
         )
 
+    # -- Auto-pagination iterators --
+
+    def iter_user_posts(self, username: str) -> Iterator[dict[str, Any]]:
+        return self._paginate(
+            f"/instagram/users/{username}/posts",
+            params={},
+            items_key="posts",
+        )
+
+    def iter_post_comments(self, shortcode: str) -> Iterator[dict[str, Any]]:
+        return self._paginate(
+            f"/instagram/posts/{shortcode}/comments",
+            params={},
+            items_key="comments",
+        )
+
 
 class AsyncInstagram(AsyncAPIResource):
     """Async Instagram namespace."""
@@ -60,3 +77,23 @@ class AsyncInstagram(AsyncAPIResource):
         return await self._get(
             f"/instagram/users/{username}/posts", params={"cursor": cursor}
         )
+
+    # -- Auto-pagination iterators --
+
+    async def iter_user_posts(self, username: str) -> AsyncIterator[dict[str, Any]]:
+        async for item in self._paginate(
+            f"/instagram/users/{username}/posts",
+            params={},
+            items_key="posts",
+        ):
+            yield item
+
+    async def iter_post_comments(
+        self, shortcode: str
+    ) -> AsyncIterator[dict[str, Any]]:
+        async for item in self._paginate(
+            f"/instagram/posts/{shortcode}/comments",
+            params={},
+            items_key="comments",
+        ):
+            yield item
