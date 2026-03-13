@@ -37,10 +37,12 @@ class X(APIResource):
         count: int | None = None,
         cursor: str | None = None,
         product: str | None = None,
-    ) -> APIResponse[dict[str, Any]]:
-        return self._get(
+    ) -> APIResponse[list[XPost]]:
+        return self._get_list(
             "/x/posts/search",
             params={"q": q, "count": count, "cursor": cursor, "product": product},
+            items_key="tweets",
+            cast_to=XPost,
         )
 
     # -- Auto-pagination iterators --
@@ -98,10 +100,12 @@ class AsyncX(AsyncAPIResource):
         count: int | None = None,
         cursor: str | None = None,
         product: str | None = None,
-    ) -> APIResponse[dict[str, Any]]:
-        return await self._get(
+    ) -> APIResponse[list[XPost]]:
+        return await self._get_list(
             "/x/posts/search",
             params={"q": q, "count": count, "cursor": cursor, "product": product},
+            items_key="tweets",
+            cast_to=XPost,
         )
 
     # -- Auto-pagination iterators --
