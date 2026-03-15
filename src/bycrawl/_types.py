@@ -10,7 +10,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic.alias_generators import to_camel
 
 T = TypeVar("T")
 
@@ -20,7 +21,22 @@ T = TypeVar("T")
 
 
 class _Base(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", alias_generator=to_camel, populate_by_name=True)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _coerce_null_bools(cls, values: Any) -> Any:
+        """Coerce null values to defaults for bool fields so the API
+        returning ``"isVerified": null`` doesn't cause validation errors."""
+        if not isinstance(values, dict):
+            return values
+        for name, field_info in cls.model_fields.items():
+            if field_info.annotation is bool and field_info.default is not None:
+                # Check both snake_case and camelCase keys
+                for key in (name, to_camel(name)):
+                    if key in values and values[key] is None:
+                        values[key] = field_info.default
+        return values
 
 
 # ---------------------------------------------------------------------------
@@ -229,7 +245,7 @@ class RedditPost(_Base):
     subreddit: str | None = None
     score: int | None = None
     upvote_ratio: float | None = None
-    num_comments: int | None = None
+    num_comments: int | None = Field(None, alias="commentCount")
     created_at: str | None = None
     permalink: str | None = None
     is_nsfw: bool = False
@@ -256,21 +272,26 @@ class LinkedInCompany(_Base):
     description: str | None = None
     website: str | None = None
     industry: str | None = None
-    company_size: str | None = None
+    company_size: str | None = Field(None, alias="size")
     headquarters: str | None = None
-    logo_url: str | None = None
+    logo_url: str | None = Field(None, alias="logo")
+    banner: str | None = None
+    employee_count: int | str | None = None
     follower_count: int | None = None
+    specialties: list[str] | None = None
+    founded: str | None = None
 
 
 class LinkedInJob(_Base):
     id: str | None = None
     title: str | None = None
-    company_name: str | None = None
+    company: str | None = None
+    company_id: str | None = None
     location: str | None = None
     description: str | None = None
     employment_type: str | None = None
     posted_at: str | None = None
-    url: str | None = None
+    url: str | None = Field(None, alias="applyUrl")
 
 
 class LinkedInPost(_Base):
@@ -315,13 +336,14 @@ class TikTokVideo(_Base):
 class TikTokUser(_Base):
     id: str | None = None
     username: str | None = None
-    nickname: str | None = None
-    avatar: str | None = None
+    nickname: str | None = Field(None, alias="displayName")
+    avatar: str | None = Field(None, alias="avatarUrl")
+    bio: str | None = None
     signature: str | None = None
     verified: bool = False
-    follower_count: int | None = None
-    following_count: int | None = None
-    heart_count: int | None = None
+    follower_count: int | None = Field(None, alias="followers")
+    following_count: int | None = Field(None, alias="following")
+    heart_count: int | None = Field(None, alias="hearts")
     video_count: int | None = None
 
 
@@ -345,15 +367,17 @@ class TikTokCategory(_Base):
 
 
 class Job104Job(_Base):
-    id: str | None = None
-    title: str | None = None
+    id: str | None = Field(None, alias="jobId")
+    title: str | None = Field(None, alias="jobName")
+    company_id: str | None = None
     company_name: str | None = None
-    location: str | None = None
+    location: str | None = Field(None, alias="area")
     description: str | None = None
     salary: str | None = None
     employment_type: str | None = None
-    posted_at: str | None = None
-    url: str | None = None
+    posted_at: str | None = Field(None, alias="appearedAt")
+    url: str | None = Field(None, alias="link")
+    tags: list[str] = []
     requirements: list[str] = []
 
 

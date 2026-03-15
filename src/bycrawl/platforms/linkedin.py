@@ -35,15 +35,16 @@ class LinkedIn(APIResource):
 
     def search_jobs(
         self,
-        query: str,
+        q: str,
         *,
         location: str | None = None,
         count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[list[LinkedInJob]]:
-        return self._get(
+        return self._get_list(
             "/linkedin/jobs/search",
-            params={"query": query, "location": location, "count": count, "offset": offset},
+            params={"q": q, "location": location, "count": count, "offset": offset},
+            items_key="jobs",
             cast_to=LinkedInJob,
         )
 
@@ -55,14 +56,15 @@ class LinkedIn(APIResource):
 
     def search_users(
         self,
-        query: str,
+        q: str,
         *,
         count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[list[LinkedInUser]]:
-        return self._get(
+        return self._get_list(
             "/linkedin/users/search",
-            params={"query": query, "count": count, "offset": offset},
+            params={"q": q, "count": count, "offset": offset},
+            items_key="users",
             cast_to=LinkedInUser,
         )
 
@@ -83,7 +85,7 @@ class LinkedIn(APIResource):
 
     def iter_search_jobs(
         self,
-        query: str,
+        q: str,
         *,
         location: str | None = None,
         count: int | None = None,
@@ -91,7 +93,7 @@ class LinkedIn(APIResource):
         return self._paginate_by_offset(
             "/linkedin/jobs/search",
             params={
-                "query": query,
+                "q": q,
                 "location": location,
                 "count": count or 10,
                 "limit": count or 10,
@@ -121,15 +123,16 @@ class AsyncLinkedIn(AsyncAPIResource):
 
     async def search_jobs(
         self,
-        query: str,
+        q: str,
         *,
         location: str | None = None,
         count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[list[LinkedInJob]]:
-        return await self._get(
+        return await self._get_list(
             "/linkedin/jobs/search",
-            params={"query": query, "location": location, "count": count, "offset": offset},
+            params={"q": q, "location": location, "count": count, "offset": offset},
+            items_key="jobs",
             cast_to=LinkedInJob,
         )
 
@@ -141,14 +144,15 @@ class AsyncLinkedIn(AsyncAPIResource):
 
     async def search_users(
         self,
-        query: str,
+        q: str,
         *,
         count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[list[LinkedInUser]]:
-        return await self._get(
+        return await self._get_list(
             "/linkedin/users/search",
-            params={"query": query, "count": count, "offset": offset},
+            params={"q": q, "count": count, "offset": offset},
+            items_key="users",
             cast_to=LinkedInUser,
         )
 
@@ -170,7 +174,7 @@ class AsyncLinkedIn(AsyncAPIResource):
 
     async def iter_search_jobs(
         self,
-        query: str,
+        q: str,
         *,
         location: str | None = None,
         count: int | None = None,
@@ -178,7 +182,7 @@ class AsyncLinkedIn(AsyncAPIResource):
         async for item in self._paginate_by_offset(
             "/linkedin/jobs/search",
             params={
-                "query": query,
+                "q": q,
                 "location": location,
                 "count": count or 10,
                 "limit": count or 10,

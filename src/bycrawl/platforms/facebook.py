@@ -15,29 +15,42 @@ class Facebook(APIResource):
     def get_user(self, username: str) -> APIResponse[FacebookUser]:
         return self._get(f"/facebook/users/{username}", cast_to=FacebookUser)
 
-    def get_user_posts(self, username: str) -> APIResponse[list[FacebookPost]]:
-        return self._get(f"/facebook/users/{username}/posts", cast_to=FacebookPost)
+    def get_page(self, page_id: str) -> APIResponse[dict[str, Any]]:
+        return self._get(f"/facebook/pages/{page_id}")
+
+    def get_page_posts(
+        self, page_id: str, *, count: int | None = None
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            f"/facebook/pages/{page_id}/posts", params={"count": count}
+        )
+
+    def get_user_posts(
+        self, username: str, *, count: int | None = None
+    ) -> APIResponse[list[FacebookPost]]:
+        return self._get(
+            f"/facebook/users/{username}/posts",
+            params={"count": count},
+            cast_to=FacebookPost,
+        )
 
     def get_post(self, *, url: str) -> APIResponse[FacebookPost]:
         return self._get("/facebook/posts", params={"url": url}, cast_to=FacebookPost)
 
     def get_post_comments(
-        self, *, url: str, cursor: str | None = None
+        self, *, url: str
     ) -> APIResponse[dict[str, Any]]:
-        return self._get(
-            "/facebook/posts/comments", params={"url": url, "cursor": cursor}
-        )
+        return self._get("/facebook/posts/comments", params={"url": url})
 
     def search_posts(
         self,
         q: str,
         *,
         count: int | None = None,
-        cursor: str | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return self._get(
             "/facebook/posts/search",
-            params={"q": q, "count": count, "cursor": cursor},
+            params={"q": q, "count": count},
         )
 
     def marketplace_browse(
@@ -91,29 +104,42 @@ class AsyncFacebook(AsyncAPIResource):
     async def get_user(self, username: str) -> APIResponse[FacebookUser]:
         return await self._get(f"/facebook/users/{username}", cast_to=FacebookUser)
 
-    async def get_user_posts(self, username: str) -> APIResponse[list[FacebookPost]]:
-        return await self._get(f"/facebook/users/{username}/posts", cast_to=FacebookPost)
+    async def get_page(self, page_id: str) -> APIResponse[dict[str, Any]]:
+        return await self._get(f"/facebook/pages/{page_id}")
+
+    async def get_page_posts(
+        self, page_id: str, *, count: int | None = None
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            f"/facebook/pages/{page_id}/posts", params={"count": count}
+        )
+
+    async def get_user_posts(
+        self, username: str, *, count: int | None = None
+    ) -> APIResponse[list[FacebookPost]]:
+        return await self._get(
+            f"/facebook/users/{username}/posts",
+            params={"count": count},
+            cast_to=FacebookPost,
+        )
 
     async def get_post(self, *, url: str) -> APIResponse[FacebookPost]:
         return await self._get("/facebook/posts", params={"url": url}, cast_to=FacebookPost)
 
     async def get_post_comments(
-        self, *, url: str, cursor: str | None = None
+        self, *, url: str
     ) -> APIResponse[dict[str, Any]]:
-        return await self._get(
-            "/facebook/posts/comments", params={"url": url, "cursor": cursor}
-        )
+        return await self._get("/facebook/posts/comments", params={"url": url})
 
     async def search_posts(
         self,
         q: str,
         *,
         count: int | None = None,
-        cursor: str | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return await self._get(
             "/facebook/posts/search",
-            params={"q": q, "count": count, "cursor": cursor},
+            params={"q": q, "count": count},
         )
 
     async def marketplace_browse(

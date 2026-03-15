@@ -20,7 +20,7 @@ class Job104(APIResource):
         page: int | None = None,
         count: int | None = None,
     ) -> APIResponse[list[Job104Job]]:
-        return self._get(
+        return self._get_list(
             "/job104/jobs/search",
             params={
                 "q": q,
@@ -29,6 +29,7 @@ class Job104(APIResource):
                 "page": page,
                 "count": count,
             },
+            items_key="jobs",
             cast_to=Job104Job,
         )
 
@@ -69,7 +70,7 @@ class AsyncJob104(AsyncAPIResource):
         page: int | None = None,
         count: int | None = None,
     ) -> APIResponse[list[Job104Job]]:
-        return await self._get(
+        return await self._get_list(
             "/job104/jobs/search",
             params={
                 "q": q,
@@ -78,6 +79,7 @@ class AsyncJob104(AsyncAPIResource):
                 "page": page,
                 "count": count,
             },
+            items_key="jobs",
             cast_to=Job104Job,
         )
 

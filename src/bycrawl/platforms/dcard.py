@@ -19,24 +19,24 @@ class Dcard(APIResource):
         self,
         alias: str,
         *,
-        limit: int | None = None,
+        count: int | None = None,
         popular: bool | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return self._get(
             f"/dcard/forums/{alias}/posts",
-            params={"limit": limit, "popular": popular},
+            params={"count": count, "popular": popular},
         )
 
     def search_posts(
         self,
         q: str,
         *,
-        limit: int | None = None,
+        count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return self._get(
-            "/dcard/search/posts",
-            params={"q": q, "limit": limit, "offset": offset},
+            "/dcard/posts/search",
+            params={"q": q, "count": count, "offset": offset},
         )
 
     def get_persona(self, username: str) -> APIResponse[DcardPersona]:
@@ -48,11 +48,11 @@ class Dcard(APIResource):
         self,
         q: str,
         *,
-        limit: int | None = None,
+        count: int | None = None,
     ) -> Iterator[DcardPost]:
         return self._paginate_by_offset(
-            "/dcard/search/posts",
-            params={"q": q, "limit": limit or 30},
+            "/dcard/posts/search",
+            params={"q": q, "count": count or 30},
             items_key="posts",
             cast_to=DcardPost,
         )
@@ -68,24 +68,24 @@ class AsyncDcard(AsyncAPIResource):
         self,
         alias: str,
         *,
-        limit: int | None = None,
+        count: int | None = None,
         popular: bool | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return await self._get(
             f"/dcard/forums/{alias}/posts",
-            params={"limit": limit, "popular": popular},
+            params={"count": count, "popular": popular},
         )
 
     async def search_posts(
         self,
         q: str,
         *,
-        limit: int | None = None,
+        count: int | None = None,
         offset: int | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return await self._get(
-            "/dcard/search/posts",
-            params={"q": q, "limit": limit, "offset": offset},
+            "/dcard/posts/search",
+            params={"q": q, "count": count, "offset": offset},
         )
 
     async def get_persona(self, username: str) -> APIResponse[DcardPersona]:
@@ -97,11 +97,11 @@ class AsyncDcard(AsyncAPIResource):
         self,
         q: str,
         *,
-        limit: int | None = None,
+        count: int | None = None,
     ) -> AsyncIterator[DcardPost]:
         async for item in self._paginate_by_offset(
-            "/dcard/search/posts",
-            params={"q": q, "limit": limit or 30},
+            "/dcard/posts/search",
+            params={"q": q, "count": count or 30},
             items_key="posts",
             cast_to=DcardPost,
         ):

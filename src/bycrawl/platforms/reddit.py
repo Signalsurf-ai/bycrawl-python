@@ -21,10 +21,12 @@ class Reddit(APIResource):
         sort: str | None = None,
         t: str | None = None,
         count: int | None = None,
+        after: str | None = None,
     ) -> APIResponse[list[RedditPost]]:
-        return self._get(
+        return self._get_list(
             f"/reddit/subreddits/{name}/posts",
-            params={"sort": sort, "t": t, "count": count},
+            params={"sort": sort, "t": t, "count": count, "after": after},
+            items_key="posts",
             cast_to=RedditPost,
         )
 
@@ -36,11 +38,14 @@ class Reddit(APIResource):
         q: str,
         *,
         sort: str | None = None,
+        t: str | None = None,
         count: int | None = None,
+        after: str | None = None,
     ) -> APIResponse[list[RedditPost]]:
-        return self._get(
+        return self._get_list(
             "/reddit/posts/search",
-            params={"q": q, "sort": sort, "count": count},
+            params={"q": q, "sort": sort, "t": t, "count": count, "after": after},
+            items_key="posts",
             cast_to=RedditPost,
         )
 
@@ -75,10 +80,12 @@ class AsyncReddit(AsyncAPIResource):
         sort: str | None = None,
         t: str | None = None,
         count: int | None = None,
+        after: str | None = None,
     ) -> APIResponse[list[RedditPost]]:
-        return await self._get(
+        return await self._get_list(
             f"/reddit/subreddits/{name}/posts",
-            params={"sort": sort, "t": t, "count": count},
+            params={"sort": sort, "t": t, "count": count, "after": after},
+            items_key="posts",
             cast_to=RedditPost,
         )
 
@@ -90,11 +97,14 @@ class AsyncReddit(AsyncAPIResource):
         q: str,
         *,
         sort: str | None = None,
+        t: str | None = None,
         count: int | None = None,
+        after: str | None = None,
     ) -> APIResponse[list[RedditPost]]:
-        return await self._get(
+        return await self._get_list(
             "/reddit/posts/search",
-            params={"q": q, "sort": sort, "count": count},
+            params={"q": q, "sort": sort, "t": t, "count": count, "after": after},
+            items_key="posts",
             cast_to=RedditPost,
         )
 

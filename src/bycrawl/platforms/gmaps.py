@@ -13,12 +13,12 @@ class GMaps(APIResource):
 
     def search(
         self,
-        query: str,
+        q: str,
         *,
         language: str | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return self._get(
-            "/gmaps/search", params={"query": query, "language": language}
+            "/gmaps/places/search", params={"q": q, "language": language}
         )
 
     def get_place(
@@ -39,12 +39,12 @@ class AsyncGMaps(AsyncAPIResource):
 
     async def search(
         self,
-        query: str,
+        q: str,
         *,
         language: str | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return await self._get(
-            "/gmaps/search", params={"query": query, "language": language}
+            "/gmaps/places/search", params={"q": q, "language": language}
         )
 
     async def get_place(

@@ -34,8 +34,11 @@ class Threads(APIResource):
     def search_posts(
         self, q: str, *, count: int | None = None
     ) -> APIResponse[list[ThreadsPost]]:
-        return self._get(
-            "/threads/posts/search", params={"q": q, "count": count}, cast_to=ThreadsPost
+        return self._get_list(
+            "/threads/posts/search",
+            params={"q": q, "count": count},
+            items_key="posts",
+            cast_to=ThreadsPost,
         )
 
     def get_user(self, username: str) -> APIResponse[ThreadsUser]:
@@ -68,8 +71,11 @@ class Threads(APIResource):
     def search_users(
         self, q: str, *, count: int | None = None
     ) -> APIResponse[list[ThreadsUser]]:
-        return self._get(
-            "/threads/users/search", params={"q": q, "count": count}, cast_to=ThreadsUser
+        return self._get_list(
+            "/threads/users/search",
+            params={"q": q, "count": count},
+            items_key="users",
+            cast_to=ThreadsUser,
         )
 
     def get_public_feed(
@@ -165,8 +171,11 @@ class AsyncThreads(AsyncAPIResource):
     async def search_posts(
         self, q: str, *, count: int | None = None
     ) -> APIResponse[list[ThreadsPost]]:
-        return await self._get(
-            "/threads/posts/search", params={"q": q, "count": count}, cast_to=ThreadsPost
+        return await self._get_list(
+            "/threads/posts/search",
+            params={"q": q, "count": count},
+            items_key="posts",
+            cast_to=ThreadsPost,
         )
 
     async def get_user(self, username: str) -> APIResponse[ThreadsUser]:
@@ -199,8 +208,11 @@ class AsyncThreads(AsyncAPIResource):
     async def search_users(
         self, q: str, *, count: int | None = None
     ) -> APIResponse[list[ThreadsUser]]:
-        return await self._get(
-            "/threads/users/search", params={"q": q, "count": count}, cast_to=ThreadsUser
+        return await self._get_list(
+            "/threads/users/search",
+            params={"q": q, "count": count},
+            items_key="users",
+            cast_to=ThreadsUser,
         )
 
     async def get_public_feed(
