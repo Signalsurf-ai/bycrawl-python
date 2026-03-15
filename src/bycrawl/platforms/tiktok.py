@@ -42,16 +42,18 @@ class TikTok(APIResource):
         )
 
     def search(
-        self, keyword: str, *, count: int | None = None
+        self, q: str, *, count: int | None = None
     ) -> APIResponse[dict[str, Any]]:
         return self._get(
-            "/tiktok/videos/search", params={"q": keyword, "count": count}
+            "/tiktok/videos/search", params={"q": q, "count": count}
         )
 
     def get_video_subtitles(
-        self, video_id: str
+        self, video_id: str, *, language: str = "en"
     ) -> APIResponse[dict[str, Any]]:
-        return self._get(f"/tiktok/videos/{video_id}/subtitles")
+        return self._get(
+            f"/tiktok/videos/{video_id}/subtitles", params={"language": language}
+        )
 
     # -- Auto-pagination iterators --
 
@@ -97,16 +99,18 @@ class AsyncTikTok(AsyncAPIResource):
         )
 
     async def search(
-        self, keyword: str, *, count: int | None = None
+        self, q: str, *, count: int | None = None
     ) -> APIResponse[dict[str, Any]]:
         return await self._get(
-            "/tiktok/videos/search", params={"q": keyword, "count": count}
+            "/tiktok/videos/search", params={"q": q, "count": count}
         )
 
     async def get_video_subtitles(
-        self, video_id: str
+        self, video_id: str, *, language: str = "en"
     ) -> APIResponse[dict[str, Any]]:
-        return await self._get(f"/tiktok/videos/{video_id}/subtitles")
+        return await self._get(
+            f"/tiktok/videos/{video_id}/subtitles", params={"language": language}
+        )
 
     # -- Auto-pagination iterators --
 
