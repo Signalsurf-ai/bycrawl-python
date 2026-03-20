@@ -19,15 +19,15 @@ from .._types import (
 class Threads(APIResource):
     """Sync Threads namespace."""
 
-    def get_post(self, post_id: str, *, mode: str | None = None) -> APIResponse[ThreadsPost]:
-        return self._get(f"/threads/posts/{post_id}", params={"mode": mode}, cast_to=ThreadsPost)
+    def get_post(self, post_id: str) -> APIResponse[ThreadsPost]:
+        return self._get(f"/threads/posts/{post_id}", cast_to=ThreadsPost)
 
     def get_posts(
-        self, ids: list[str], *, mode: str | None = None
+        self, ids: list[str]
     ) -> APIResponse[list[ThreadsPost]]:
         return self._get(
             "/threads/posts",
-            params={"ids": ",".join(ids), "mode": mode},
+            params={"ids": ",".join(ids)},
             cast_to=ThreadsPost,
         )
 
@@ -153,18 +153,18 @@ class AsyncThreads(AsyncAPIResource):
     """Async Threads namespace."""
 
     async def get_post(
-        self, post_id: str, *, mode: str | None = None
+        self, post_id: str
     ) -> APIResponse[ThreadsPost]:
         return await self._get(
-            f"/threads/posts/{post_id}", params={"mode": mode}, cast_to=ThreadsPost
+            f"/threads/posts/{post_id}", cast_to=ThreadsPost
         )
 
     async def get_posts(
-        self, ids: list[str], *, mode: str | None = None
+        self, ids: list[str]
     ) -> APIResponse[list[ThreadsPost]]:
         return await self._get(
             "/threads/posts",
-            params={"ids": ",".join(ids), "mode": mode},
+            params={"ids": ",".join(ids)},
             cast_to=ThreadsPost,
         )
 
