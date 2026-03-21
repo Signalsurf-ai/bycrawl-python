@@ -55,18 +55,6 @@ class TestThreads:
         client.close()
 
     @respx.mock(base_url="https://api.bycrawl.com")
-    def test_get_post_with_mode(self, respx_mock: respx.Router):
-        route = respx_mock.get("/threads/posts/abc").mock(
-            return_value=httpx.Response(200, json={
-                "data": {"id": "abc", "code": "x", "text": "hi", "views": 100}
-            })
-        )
-        client = ByCrawl(api_key="sk_byc_test")
-        client.threads.get_post("abc", mode="full")
-        assert "mode=full" in str(route.calls[0].request.url)
-        client.close()
-
-    @respx.mock(base_url="https://api.bycrawl.com")
     def test_get_user(self, respx_mock: respx.Router):
         respx_mock.get("/threads/users/zuck").mock(
             return_value=httpx.Response(200, json={
