@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import httpx
-import pytest
 import respx
 
 from bycrawl import ByCrawl
@@ -32,7 +31,6 @@ from bycrawl._types import (
     YouTubeChannel,
     YouTubeVideo,
 )
-
 
 # ---------------------------------------------------------------------------
 # Threads
@@ -532,16 +530,6 @@ class TestTikTok:
         )
         client = ByCrawl(api_key="sk_byc_test")
         resp = client.tiktok.get_video_subtitles("v1")
-        assert resp.success is True
-        client.close()
-
-    @respx.mock(base_url="https://api.bycrawl.com")
-    def test_get_categories(self, respx_mock: respx.Router):
-        respx_mock.get("/tiktok/categories").mock(
-            return_value=httpx.Response(200, json={"data": {"videos": []}})
-        )
-        client = ByCrawl(api_key="sk_byc_test")
-        resp = client.tiktok.get_categories(category="comedy")
         assert resp.success is True
         client.close()
 

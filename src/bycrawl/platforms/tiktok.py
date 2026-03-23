@@ -34,13 +34,6 @@ class TikTok(APIResource):
             f"/tiktok/videos/{video_id}/comments", params={"cursor": cursor}
         )
 
-    def get_categories(
-        self, *, category: str | None = None, count: int | None = None
-    ) -> APIResponse[dict[str, Any]]:
-        return self._get(
-            "/tiktok/categories", params={"category": category, "count": count}
-        )
-
     def search(
         self, q: str, *, count: int | None = None
     ) -> APIResponse[dict[str, Any]]:
@@ -89,13 +82,6 @@ class AsyncTikTok(AsyncAPIResource):
     ) -> APIResponse[dict[str, Any]]:
         return await self._get(
             f"/tiktok/videos/{video_id}/comments", params={"cursor": cursor}
-        )
-
-    async def get_categories(
-        self, *, category: str | None = None, count: int | None = None
-    ) -> APIResponse[dict[str, Any]]:
-        return await self._get(
-            "/tiktok/categories", params={"category": category, "count": count}
         )
 
     async def search(
