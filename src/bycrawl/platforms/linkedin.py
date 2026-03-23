@@ -71,6 +71,30 @@ class LinkedIn(APIResource):
     def get_user(self, username: str) -> APIResponse[LinkedInUser]:
         return self._get(f"/linkedin/users/{username}", cast_to=LinkedInUser)
 
+    def get_company_employees(
+        self,
+        company_id: str,
+        *,
+        count: int = 25,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            f"/linkedin/companies/{company_id}/employees",
+            params={"count": count},
+        )
+
+    def get_user_posts(
+        self,
+        username: str,
+        *,
+        count: int = 20,
+    ) -> APIResponse[list[LinkedInPost]]:
+        return self._get_list(
+            f"/linkedin/users/{username}/posts",
+            params={"count": count},
+            items_key="posts",
+            cast_to=LinkedInPost,
+        )
+
     # -- Auto-pagination iterators --
 
     def iter_company_jobs(
@@ -158,6 +182,30 @@ class AsyncLinkedIn(AsyncAPIResource):
 
     async def get_user(self, username: str) -> APIResponse[LinkedInUser]:
         return await self._get(f"/linkedin/users/{username}", cast_to=LinkedInUser)
+
+    async def get_company_employees(
+        self,
+        company_id: str,
+        *,
+        count: int = 25,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            f"/linkedin/companies/{company_id}/employees",
+            params={"count": count},
+        )
+
+    async def get_user_posts(
+        self,
+        username: str,
+        *,
+        count: int = 20,
+    ) -> APIResponse[list[LinkedInPost]]:
+        return await self._get_list(
+            f"/linkedin/users/{username}/posts",
+            params={"count": count},
+            items_key="posts",
+            cast_to=LinkedInPost,
+        )
 
     # -- Auto-pagination iterators --
 
