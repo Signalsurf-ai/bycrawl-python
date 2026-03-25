@@ -6,9 +6,9 @@ import httpx
 import respx
 
 from bycrawl import ByCrawl
-from bycrawl._resource import _parse_credit, _parse_rate_limit, _wrap_response
 from bycrawl._http import ResponseWrapper
-from bycrawl._types import RateLimit, CreditInfo, ThreadsUser
+from bycrawl._resource import _parse_credit, _parse_rate_limit, _wrap_response
+from bycrawl._types import CreditInfo, RateLimit, ThreadsUser
 
 
 class TestParseRateLimit:

@@ -32,11 +32,21 @@ class Threads(APIResource):
         )
 
     def search_posts(
-        self, q: str, *, count: int | None = None
+        self,
+        q: str,
+        *,
+        count: int | None = None,
+        search_type: str | None = None,
+        cursor: str | None = None,
     ) -> APIResponse[list[ThreadsPost]]:
         return self._get_list(
             "/threads/posts/search",
-            params={"q": q, "count": count},
+            params={
+                "q": q,
+                "count": count,
+                "search_type": search_type,
+                "cursor": cursor,
+            },
             items_key="posts",
             cast_to=ThreadsPost,
         )
@@ -79,9 +89,16 @@ class Threads(APIResource):
         )
 
     def get_public_feed(
-        self, *, cursor: str | None = None, count: int | None = None
+        self,
+        *,
+        cursor: str | None = None,
+        count: int | None = None,
+        country: str | None = None,
     ) -> APIResponse[dict[str, Any]]:
-        return self._get("/threads/feed/public", params={"cursor": cursor, "count": count})
+        return self._get(
+            "/threads/feed/public",
+            params={"cursor": cursor, "count": count, "country": country},
+        )
 
     # -- Bulk operations --
 
@@ -169,11 +186,21 @@ class AsyncThreads(AsyncAPIResource):
         )
 
     async def search_posts(
-        self, q: str, *, count: int | None = None
+        self,
+        q: str,
+        *,
+        count: int | None = None,
+        search_type: str | None = None,
+        cursor: str | None = None,
     ) -> APIResponse[list[ThreadsPost]]:
         return await self._get_list(
             "/threads/posts/search",
-            params={"q": q, "count": count},
+            params={
+                "q": q,
+                "count": count,
+                "search_type": search_type,
+                "cursor": cursor,
+            },
             items_key="posts",
             cast_to=ThreadsPost,
         )
@@ -216,10 +243,15 @@ class AsyncThreads(AsyncAPIResource):
         )
 
     async def get_public_feed(
-        self, *, cursor: str | None = None, count: int | None = None
+        self,
+        *,
+        cursor: str | None = None,
+        count: int | None = None,
+        country: str | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return await self._get(
-            "/threads/feed/public", params={"cursor": cursor, "count": count}
+            "/threads/feed/public",
+            params={"cursor": cursor, "count": count, "country": country},
         )
 
     # -- Bulk operations --

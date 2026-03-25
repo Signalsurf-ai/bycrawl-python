@@ -33,6 +33,24 @@ class GMaps(APIResource):
             cast_to=GMapsPlace,
         )
 
+    def get_place_reviews(
+        self,
+        query: str,
+        *,
+        sort: str | None = None,
+        page_token: str | None = None,
+        language: str | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            "/gmaps/places/reviews",
+            params={
+                "query": query,
+                "sort": sort,
+                "pageToken": page_token,
+                "language": language,
+            },
+        )
+
 
 class AsyncGMaps(AsyncAPIResource):
     """Async Google Maps namespace."""
@@ -57,4 +75,22 @@ class AsyncGMaps(AsyncAPIResource):
             "/gmaps/places",
             params={"query": query, "language": language},
             cast_to=GMapsPlace,
+        )
+
+    async def get_place_reviews(
+        self,
+        query: str,
+        *,
+        sort: str | None = None,
+        page_token: str | None = None,
+        language: str | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            "/gmaps/places/reviews",
+            params={
+                "query": query,
+                "sort": sort,
+                "pageToken": page_token,
+                "language": language,
+            },
         )

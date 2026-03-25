@@ -8,13 +8,10 @@ import respx
 
 from bycrawl import (
     AuthenticationError,
-    ByCrawl,
-    ConnectionError,
     NotFoundError,
     PermissionError,
     RateLimitError,
     ServerError,
-    TimeoutError,
 )
 from bycrawl._exceptions import APIError
 from bycrawl._http import (

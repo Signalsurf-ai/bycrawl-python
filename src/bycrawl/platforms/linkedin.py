@@ -18,6 +18,17 @@ from .._types import (
 class LinkedIn(APIResource):
     """Sync LinkedIn namespace."""
 
+    def search_companies(
+        self,
+        q: str,
+        *,
+        count: int | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            "/linkedin/companies/search",
+            params={"q": q, "count": count},
+        )
+
     def get_company(self, company_id: str) -> APIResponse[LinkedInCompany]:
         return self._get(f"/linkedin/companies/{company_id}", cast_to=LinkedInCompany)
 
@@ -31,6 +42,17 @@ class LinkedIn(APIResource):
         return self._get(
             f"/linkedin/companies/{company_id}/jobs",
             params={"count": count, "offset": offset},
+        )
+
+    def get_company_posts(
+        self,
+        company_id: str,
+        *,
+        count: int | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            f"/linkedin/companies/{company_id}/posts",
+            params={"count": count},
         )
 
     def search_jobs(
@@ -130,6 +152,17 @@ class LinkedIn(APIResource):
 class AsyncLinkedIn(AsyncAPIResource):
     """Async LinkedIn namespace."""
 
+    async def search_companies(
+        self,
+        q: str,
+        *,
+        count: int | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            "/linkedin/companies/search",
+            params={"q": q, "count": count},
+        )
+
     async def get_company(self, company_id: str) -> APIResponse[LinkedInCompany]:
         return await self._get(f"/linkedin/companies/{company_id}", cast_to=LinkedInCompany)
 
@@ -143,6 +176,17 @@ class AsyncLinkedIn(AsyncAPIResource):
         return await self._get(
             f"/linkedin/companies/{company_id}/jobs",
             params={"count": count, "offset": offset},
+        )
+
+    async def get_company_posts(
+        self,
+        company_id: str,
+        *,
+        count: int | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            f"/linkedin/companies/{company_id}/posts",
+            params={"count": count},
         )
 
     async def search_jobs(

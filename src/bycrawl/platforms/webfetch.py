@@ -19,6 +19,14 @@ class WebFetch(APIResource):
     ) -> APIResponse[dict[str, Any]]:
         return self._get("/web/fetch", params={"url": url, "format": format})
 
+    def search(
+        self,
+        q: str,
+        *,
+        count: int | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get("/web/search", params={"q": q, "count": count})
+
 
 class AsyncWebFetch(AsyncAPIResource):
     """Async Web Fetch namespace."""
@@ -30,3 +38,11 @@ class AsyncWebFetch(AsyncAPIResource):
         format: str | None = None,
     ) -> APIResponse[dict[str, Any]]:
         return await self._get("/web/fetch", params={"url": url, "format": format})
+
+    async def search(
+        self,
+        q: str,
+        *,
+        count: int | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get("/web/search", params={"q": q, "count": count})
