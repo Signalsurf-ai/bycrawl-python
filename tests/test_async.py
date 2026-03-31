@@ -63,17 +63,6 @@ class TestAsyncThreads:
             assert len(posts) == 1
             assert isinstance(posts[0], ThreadsPost)
 
-    @respx.mock(base_url="https://api.bycrawl.com")
-    async def test_bulk_submit_with_type(self, respx_mock: respx.Router):
-        respx_mock.post("/threads/bulk").mock(
-            return_value=httpx.Response(200, json={
-                "data": {"job_id": "j1", "status": "queued"}
-            })
-        )
-        async with AsyncByCrawl(api_key="sk_byc_test") as client:
-            resp = await client.threads.bulk_submit(["id1"], type="user-profile")
-            assert resp.data.job_id == "j1"
-
 
 @pytest.mark.asyncio
 class TestAsyncX:

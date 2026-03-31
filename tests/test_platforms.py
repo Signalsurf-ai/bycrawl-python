@@ -115,22 +115,6 @@ class TestThreads:
         client.close()
 
     @respx.mock(base_url="https://api.bycrawl.com")
-    def test_bulk_submit_with_type(self, respx_mock: respx.Router):
-        route = respx_mock.post("/threads/bulk").mock(
-            return_value=httpx.Response(200, json={
-                "data": {"job_id": "j1", "status": "queued"}
-            })
-        )
-        client = ByCrawl(api_key="sk_byc_test")
-        resp = client.threads.bulk_submit(["id1"], type="user-profile")
-        assert resp.data.job_id == "j1"
-        # Verify the body contains type
-        import json
-        body = json.loads(route.calls[0].request.content)
-        assert body["type"] == "user-profile"
-        client.close()
-
-    @respx.mock(base_url="https://api.bycrawl.com")
     def test_get_posts_batch(self, respx_mock: respx.Router):
         respx_mock.get("/threads/posts").mock(
             return_value=httpx.Response(200, json={

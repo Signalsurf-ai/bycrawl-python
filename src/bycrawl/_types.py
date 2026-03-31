@@ -393,25 +393,6 @@ class Job104Company(_Base):
 
 
 # ---------------------------------------------------------------------------
-# Bulk Job
-# ---------------------------------------------------------------------------
-
-
-class BulkJobStatus(_Base):
-    job_id: str
-    status: str  # "queued", "processing", "completed", "failed"
-    total: int | None = None
-    completed: int | None = None
-    failed: int | None = None
-    created_at: str | None = None
-
-
-class BulkJob(_Base):
-    job_id: str
-    status: str = "queued"
-
-
-# ---------------------------------------------------------------------------
 # YouTube
 # ---------------------------------------------------------------------------
 

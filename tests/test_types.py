@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from bycrawl._types import (
     APIResponse,
-    BulkJob,
-    BulkJobStatus,
     CreditInfo,
     DcardForum,
     DcardPersona,
@@ -229,11 +227,3 @@ class TestJob104Types:
         assert c.industry is None
 
 
-class TestBulkTypes:
-    def test_bulk_job(self):
-        b = BulkJob(job_id="j1")
-        assert b.status == "queued"
-
-    def test_bulk_job_status(self):
-        s = BulkJobStatus(job_id="j1", status="completed", total=10, completed=10)
-        assert s.failed is None

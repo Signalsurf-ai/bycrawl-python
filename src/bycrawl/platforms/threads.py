@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 
-import time
 from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
 from .._resource import APIResource, AsyncAPIResource
 from .._types import (
     APIResponse,
-    BulkJob,
-    BulkJobStatus,
     ThreadsPost,
     ThreadsUser,
 )
@@ -99,49 +96,6 @@ class Threads(APIResource):
             "/threads/feed/public",
             params={"cursor": cursor, "count": count, "country": country},
         )
-
-    # -- Bulk operations --
-
-    def bulk_submit(
-        self,
-        ids: list[str],
-        *,
-        type: str = "content",
-    ) -> APIResponse[BulkJob]:
-        return self._post(
-            "/threads/bulk", body={"ids": ids, "type": type}, cast_to=BulkJob
-        )
-
-    def bulk_status(self, job_id: str) -> APIResponse[BulkJobStatus]:
-        return self._get(f"/threads/bulk/{job_id}", cast_to=BulkJobStatus)
-
-    def bulk_results(self, job_id: str) -> APIResponse[list[ThreadsPost]]:
-        return self._get(f"/threads/bulk/{job_id}/results", cast_to=ThreadsPost)
-
-    def bulk_submit_and_wait(
-        self,
-        ids: list[str],
-        *,
-        poll_interval: float = 2.0,
-        timeout: float = 300.0,
-    ) -> APIResponse[list[ThreadsPost]]:
-        """Submit a bulk job and poll until completion."""
-        submit_resp = self.bulk_submit(ids)
-        job_id = submit_resp.data.job_id  # type: ignore[union-attr]
-        deadline = time.monotonic() + timeout
-        while time.monotonic() < deadline:
-            status_resp = self.bulk_status(job_id)
-            status = status_resp.data.status  # type: ignore[union-attr]
-            if status == "completed":
-                return self.bulk_results(job_id)
-            if status == "failed":
-                from .._exceptions import ByCrawlError
-
-                raise ByCrawlError(f"Bulk job {job_id} failed")
-            time.sleep(poll_interval)
-        from .._exceptions import TimeoutError
-
-        raise TimeoutError(f"Bulk job {job_id} timed out after {timeout}s")
 
     # -- Auto-pagination iterators --
 
@@ -253,51 +207,6 @@ class AsyncThreads(AsyncAPIResource):
             "/threads/feed/public",
             params={"cursor": cursor, "count": count, "country": country},
         )
-
-    # -- Bulk operations --
-
-    async def bulk_submit(
-        self,
-        ids: list[str],
-        *,
-        type: str = "content",
-    ) -> APIResponse[BulkJob]:
-        return await self._post(
-            "/threads/bulk", body={"ids": ids, "type": type}, cast_to=BulkJob
-        )
-
-    async def bulk_status(self, job_id: str) -> APIResponse[BulkJobStatus]:
-        return await self._get(f"/threads/bulk/{job_id}", cast_to=BulkJobStatus)
-
-    async def bulk_results(self, job_id: str) -> APIResponse[list[ThreadsPost]]:
-        return await self._get(f"/threads/bulk/{job_id}/results", cast_to=ThreadsPost)
-
-    async def bulk_submit_and_wait(
-        self,
-        ids: list[str],
-        *,
-        poll_interval: float = 2.0,
-        timeout: float = 300.0,
-    ) -> APIResponse[list[ThreadsPost]]:
-        """Submit a bulk job and poll until completion."""
-        import asyncio
-
-        submit_resp = await self.bulk_submit(ids)
-        job_id = submit_resp.data.job_id  # type: ignore[union-attr]
-        deadline = time.monotonic() + timeout
-        while time.monotonic() < deadline:
-            status_resp = await self.bulk_status(job_id)
-            status = status_resp.data.status  # type: ignore[union-attr]
-            if status == "completed":
-                return await self.bulk_results(job_id)
-            if status == "failed":
-                from .._exceptions import ByCrawlError
-
-                raise ByCrawlError(f"Bulk job {job_id} failed")
-            await asyncio.sleep(poll_interval)
-        from .._exceptions import TimeoutError
-
-        raise TimeoutError(f"Bulk job {job_id} timed out after {timeout}s")
 
     # -- Auto-pagination iterators --
 
