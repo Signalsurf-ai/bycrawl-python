@@ -48,6 +48,14 @@ class Threads(APIResource):
             cast_to=ThreadsPost,
         )
 
+    def get_post_replies(self, post_id: str) -> APIResponse[dict[str, Any]]:
+        """Get direct replies to a Threads post.
+
+        Returns ``{rootPost, replies, totalReplies, hasMore}``. Anonymous SSR
+        embeds ~20 top-level replies per post; pagination is not supported.
+        """
+        return self._get(f"/threads/posts/{post_id}/replies")
+
     def get_user(self, username: str) -> APIResponse[ThreadsUser]:
         return self._get(f"/threads/users/{username}", cast_to=ThreadsUser)
 
@@ -158,6 +166,14 @@ class AsyncThreads(AsyncAPIResource):
             items_key="posts",
             cast_to=ThreadsPost,
         )
+
+    async def get_post_replies(self, post_id: str) -> APIResponse[dict[str, Any]]:
+        """Get direct replies to a Threads post.
+
+        Returns ``{rootPost, replies, totalReplies, hasMore}``. Anonymous SSR
+        embeds ~20 top-level replies per post; pagination is not supported.
+        """
+        return await self._get(f"/threads/posts/{post_id}/replies")
 
     async def get_user(self, username: str) -> APIResponse[ThreadsUser]:
         return await self._get(f"/threads/users/{username}", cast_to=ThreadsUser)
