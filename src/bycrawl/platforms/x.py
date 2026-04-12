@@ -45,6 +45,17 @@ class X(APIResource):
             cast_to=XPost,
         )
 
+    def get_post_comments(
+        self,
+        post_id: str,
+        *,
+        cursor: str | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return self._get(
+            f"/x/posts/{post_id}/comments",
+            params={"cursor": cursor},
+        )
+
     # -- Auto-pagination iterators --
 
     def iter_user_posts(
@@ -106,6 +117,17 @@ class AsyncX(AsyncAPIResource):
             params={"q": q, "count": count, "cursor": cursor, "product": product},
             items_key="tweets",
             cast_to=XPost,
+        )
+
+    async def get_post_comments(
+        self,
+        post_id: str,
+        *,
+        cursor: str | None = None,
+    ) -> APIResponse[dict[str, Any]]:
+        return await self._get(
+            f"/x/posts/{post_id}/comments",
+            params={"cursor": cursor},
         )
 
     # -- Auto-pagination iterators --
