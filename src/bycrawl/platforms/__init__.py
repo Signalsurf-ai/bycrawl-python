@@ -1,6 +1,5 @@
 """ByCrawl platform namespaces."""
 
-from .dcard import AsyncDcard, Dcard
 from .facebook import AsyncFacebook, Facebook
 from .gmaps import AsyncGMaps, GMaps
 from .hackernews import AsyncHackerNews, HackerNews
@@ -28,7 +27,6 @@ __all__ = [
     "LinkedIn", "AsyncLinkedIn",
     "TikTok", "AsyncTikTok",
     "YouTube", "AsyncYouTube",
-    "Dcard", "AsyncDcard",
     "GMaps", "AsyncGMaps",
     "HackerNews", "AsyncHackerNews",
     "Job104", "AsyncJob104",

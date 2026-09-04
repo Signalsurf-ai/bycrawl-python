@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import AsyncIterator, Iterator
 
 from .._resource import APIResource, AsyncAPIResource
-from .._types import APIResponse, Job104Company, Job104Job
+from .._types import APIResponse, Job104Job
 
 
 class Job104(APIResource):
@@ -32,9 +32,6 @@ class Job104(APIResource):
             items_key="jobs",
             cast_to=Job104Job,
         )
-
-    def get_company(self, company_id: str) -> APIResponse[Job104Company]:
-        return self._get(f"/job104/companies/{company_id}", cast_to=Job104Company)
 
     def get_job(self, job_id: str) -> APIResponse[Job104Job]:
         return self._get(f"/job104/jobs/{job_id}", cast_to=Job104Job)
@@ -82,9 +79,6 @@ class AsyncJob104(AsyncAPIResource):
             items_key="jobs",
             cast_to=Job104Job,
         )
-
-    async def get_company(self, company_id: str) -> APIResponse[Job104Company]:
-        return await self._get(f"/job104/companies/{company_id}", cast_to=Job104Company)
 
     async def get_job(self, job_id: str) -> APIResponse[Job104Job]:
         return await self._get(f"/job104/jobs/{job_id}", cast_to=Job104Job)

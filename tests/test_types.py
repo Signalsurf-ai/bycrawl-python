@@ -5,15 +5,11 @@ from __future__ import annotations
 from bycrawl._types import (
     APIResponse,
     CreditInfo,
-    DcardForum,
-    DcardPersona,
-    DcardPost,
     FacebookPost,
     FacebookUser,
     GMapsPlace,
     InstagramTag,
     InstagramUser,
-    Job104Company,
     Job104Job,
     LinkedInCompany,
     LinkedInJob,
@@ -196,21 +192,6 @@ class TestYouTubeTypes:
         assert c.is_verified is True
 
 
-class TestDcardTypes:
-    def test_forum(self):
-        f = DcardForum(alias="funny", name="Funny")
-        assert f.is_school is False
-
-    def test_post(self):
-        p = DcardPost(id=1, title="Test")
-        assert p.topics == []
-        assert p.media == []
-
-    def test_persona(self):
-        p = DcardPersona(username="test", gender="M")
-        assert p.gender == "M"
-
-
 class TestGMapsTypes:
     def test_place(self):
         p = GMapsPlace(name="Cafe", rating=4.5, lat=25.0, lng=121.0)
@@ -221,9 +202,5 @@ class TestJob104Types:
     def test_job(self):
         j = Job104Job(id="1", title="Engineer", requirements=["Python"])
         assert j.requirements == ["Python"]
-
-    def test_company(self):
-        c = Job104Company(id="1", name="Acme")
-        assert c.industry is None
 
 

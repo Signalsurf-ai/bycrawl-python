@@ -2,7 +2,7 @@
 
 The official Python SDK for the [ByCrawl](https://bycrawl.com) social media data API.
 
-Supports **Threads, Facebook, X (Twitter), Instagram, Reddit, LinkedIn, TikTok, YouTube, Dcard, Google Maps, and 104**.
+Supports **Threads, Facebook, X (Twitter), Instagram, Reddit, LinkedIn, TikTok, YouTube, Google Maps, and 104**.
 
 ## Installation
 
@@ -91,14 +91,6 @@ results = client.youtube.search("machine learning", count=5)
 transcript = client.youtube.get_video_transcription("dQw4w9WgXcQ", language="en")
 ```
 
-### Dcard
-
-```python
-forum = client.dcard.get_forum("trending")
-posts = client.dcard.get_forum_posts("trending", limit=10, popular=True)
-results = client.dcard.search_posts("台大", limit=10)
-```
-
 ### Google Maps
 
 ```python
@@ -117,7 +109,7 @@ posts = client.facebook.get_user_posts("NASA")
 
 ```python
 jobs = client.job104.search_jobs(q="Python工程師")
-company = client.job104.get_company("company_id")
+job = client.job104.get_job("job_id")
 ```
 
 ## Async Support

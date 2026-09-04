@@ -43,30 +43,6 @@ class Google(APIResource):
             params={"q": q, "language": language, "country": country},
         )
 
-    def trends(
-        self,
-        q: str,
-        *,
-        timeframe: str | None = None,
-        geo: str | None = None,
-        category: int | None = None,
-    ) -> APIResponse[dict[str, Any]]:
-        return self._get(
-            "/google/trends",
-            params={
-                "q": q,
-                "timeframe": timeframe,
-                "geo": geo,
-                "category": category,
-            },
-        )
-
-    def finance(self, ticker: str) -> APIResponse[dict[str, Any]]:
-        return self._get(
-            "/google/finance",
-            params={"ticker": ticker},
-        )
-
     def shopping(
         self,
         q: str,
@@ -121,30 +97,6 @@ class AsyncGoogle(AsyncAPIResource):
         return await self._get(
             "/google/news",
             params={"q": q, "language": language, "country": country},
-        )
-
-    async def trends(
-        self,
-        q: str,
-        *,
-        timeframe: str | None = None,
-        geo: str | None = None,
-        category: int | None = None,
-    ) -> APIResponse[dict[str, Any]]:
-        return await self._get(
-            "/google/trends",
-            params={
-                "q": q,
-                "timeframe": timeframe,
-                "geo": geo,
-                "category": category,
-            },
-        )
-
-    async def finance(self, ticker: str) -> APIResponse[dict[str, Any]]:
-        return await self._get(
-            "/google/finance",
-            params={"ticker": ticker},
         )
 
     async def shopping(

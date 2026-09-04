@@ -381,17 +381,6 @@ class Job104Job(_Base):
     requirements: list[str] = []
 
 
-class Job104Company(_Base):
-    id: str | None = None
-    name: str | None = None
-    description: str | None = None
-    industry: str | None = None
-    employee_count: str | None = None
-    website: str | None = None
-    address: str | None = None
-    logo_url: str | None = None
-
-
 # ---------------------------------------------------------------------------
 # YouTube
 # ---------------------------------------------------------------------------
@@ -435,42 +424,6 @@ class YouTubeComment(_Base):
     like_count: int | None = None
     reply_count: int | None = None
     published_at: str | None = None
-
-
-# ---------------------------------------------------------------------------
-# Dcard
-# ---------------------------------------------------------------------------
-
-
-class DcardForum(_Base):
-    alias: str | None = None
-    name: str | None = None
-    description: str | None = None
-    is_school: bool = False
-    post_count: dict[str, Any] | None = None
-    subscription_count: int | None = None
-
-
-class DcardPost(_Base):
-    id: int | None = None
-    title: str | None = None
-    excerpt: str | None = None
-    content: str | None = None
-    created_at: str | None = None
-    updated_at: str | None = None
-    forum_alias: str | None = None
-    forum_name: str | None = None
-    comment_count: int | None = None
-    like_count: int | None = None
-    topics: list[str] = []
-    media: list[dict[str, Any]] = []
-
-
-class DcardPersona(_Base):
-    username: str | None = None
-    nickname: str | None = None
-    post_count: int | None = None
-    gender: str | None = None
 
 
 # ---------------------------------------------------------------------------

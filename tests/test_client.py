@@ -37,7 +37,7 @@ class TestByCrawlInit:
         client = ByCrawl(api_key="sk_byc_test")
         for ns in [
             "threads", "facebook", "x", "instagram", "reddit",
-            "linkedin", "tiktok", "youtube", "dcard", "gmaps",
+            "linkedin", "tiktok", "youtube", "gmaps",
             "job104", "web",
         ]:
             assert hasattr(client, ns), f"Missing namespace: {ns}"
@@ -57,7 +57,7 @@ class TestAsyncByCrawlInit:
         client = AsyncByCrawl(api_key="sk_byc_test")
         for ns in [
             "threads", "facebook", "x", "instagram", "reddit",
-            "linkedin", "tiktok", "youtube", "dcard", "gmaps",
+            "linkedin", "tiktok", "youtube", "gmaps",
             "job104", "web",
         ]:
             assert hasattr(client, ns), f"Missing namespace: {ns}"

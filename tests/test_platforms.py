@@ -7,13 +7,10 @@ import respx
 
 from bycrawl import ByCrawl
 from bycrawl._types import (
-    DcardForum,
-    DcardPersona,
     FacebookPost,
     FacebookUser,
     GMapsPlace,
     InstagramUser,
-    Job104Company,
     Job104Job,
     LinkedInCompany,
     LinkedInJob,
@@ -584,57 +581,6 @@ class TestYouTube:
 
 
 # ---------------------------------------------------------------------------
-# Dcard
-# ---------------------------------------------------------------------------
-
-
-class TestDcard:
-    @respx.mock(base_url="https://api.bycrawl.com")
-    def test_get_forum(self, respx_mock: respx.Router):
-        respx_mock.get("/dcard/forums/funny").mock(
-            return_value=httpx.Response(200, json={
-                "data": {"alias": "funny", "name": "Funny"}
-            })
-        )
-        client = ByCrawl(api_key="sk_byc_test")
-        resp = client.dcard.get_forum("funny")
-        assert isinstance(resp.data, DcardForum)
-        client.close()
-
-    @respx.mock(base_url="https://api.bycrawl.com")
-    def test_get_forum_posts(self, respx_mock: respx.Router):
-        respx_mock.get("/dcard/forums/funny/posts").mock(
-            return_value=httpx.Response(200, json={"data": {"posts": []}})
-        )
-        client = ByCrawl(api_key="sk_byc_test")
-        resp = client.dcard.get_forum_posts("funny", popular=True)
-        assert resp.success is True
-        client.close()
-
-    @respx.mock(base_url="https://api.bycrawl.com")
-    def test_search_posts(self, respx_mock: respx.Router):
-        respx_mock.get("/dcard/posts/search").mock(
-            return_value=httpx.Response(200, json={"data": {"posts": []}})
-        )
-        client = ByCrawl(api_key="sk_byc_test")
-        resp = client.dcard.search_posts("test")
-        assert resp.success is True
-        client.close()
-
-    @respx.mock(base_url="https://api.bycrawl.com")
-    def test_get_persona(self, respx_mock: respx.Router):
-        respx_mock.get("/dcard/personas/test").mock(
-            return_value=httpx.Response(200, json={
-                "data": {"username": "test", "nickname": "T"}
-            })
-        )
-        client = ByCrawl(api_key="sk_byc_test")
-        resp = client.dcard.get_persona("test")
-        assert isinstance(resp.data, DcardPersona)
-        client.close()
-
-
-# ---------------------------------------------------------------------------
 # Google Maps
 # ---------------------------------------------------------------------------
 
@@ -698,18 +644,6 @@ class TestJob104:
         client = ByCrawl(api_key="sk_byc_test")
         resp = client.job104.get_job("123")
         assert isinstance(resp.data, Job104Job)
-        client.close()
-
-    @respx.mock(base_url="https://api.bycrawl.com")
-    def test_get_company(self, respx_mock: respx.Router):
-        respx_mock.get("/job104/companies/c1").mock(
-            return_value=httpx.Response(200, json={
-                "data": {"id": "c1", "name": "Acme"}
-            })
-        )
-        client = ByCrawl(api_key="sk_byc_test")
-        resp = client.job104.get_company("c1")
-        assert isinstance(resp.data, Job104Company)
         client.close()
 
 
