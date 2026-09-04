@@ -19,7 +19,6 @@ from ._http import (
     AsyncTransport,
     SyncTransport,
 )
-from .platforms.dcard import AsyncDcard, Dcard
 from .platforms.facebook import AsyncFacebook, Facebook
 from .platforms.gmaps import AsyncGMaps, GMaps
 from .platforms.google import AsyncGoogle, Google
@@ -63,7 +62,6 @@ class ByCrawl:
     linkedin: LinkedIn
     tiktok: TikTok
     youtube: YouTube
-    dcard: Dcard
     gmaps: GMaps
     google: Google
     hackernews: HackerNews
@@ -106,7 +104,6 @@ class ByCrawl:
         self.linkedin = LinkedIn(self._transport)
         self.tiktok = TikTok(self._transport)
         self.youtube = YouTube(self._transport)
-        self.dcard = Dcard(self._transport)
         self.gmaps = GMaps(self._transport)
         self.google = Google(self._transport)
         self.hackernews = HackerNews(self._transport)
@@ -146,7 +143,6 @@ class AsyncByCrawl:
     linkedin: AsyncLinkedIn
     tiktok: AsyncTikTok
     youtube: AsyncYouTube
-    dcard: AsyncDcard
     gmaps: AsyncGMaps
     google: AsyncGoogle
     hackernews: AsyncHackerNews
@@ -189,7 +185,6 @@ class AsyncByCrawl:
         self.linkedin = AsyncLinkedIn(self._transport)
         self.tiktok = AsyncTikTok(self._transport)
         self.youtube = AsyncYouTube(self._transport)
-        self.dcard = AsyncDcard(self._transport)
         self.gmaps = AsyncGMaps(self._transport)
         self.google = AsyncGoogle(self._transport)
         self.hackernews = AsyncHackerNews(self._transport)
