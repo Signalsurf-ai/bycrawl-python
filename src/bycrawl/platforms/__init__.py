@@ -6,8 +6,6 @@ from .hackernews import AsyncHackerNews, HackerNews
 from .instagram import AsyncInstagram, Instagram
 from .job104 import AsyncJob104, Job104
 from .linkedin import AsyncLinkedIn, LinkedIn
-from .luma import AsyncLuma, Luma
-from .producthunt import AsyncProductHunt, ProductHunt
 from .ptt import PTT, AsyncPTT
 from .reddit import AsyncReddit, Reddit
 from .rent591 import AsyncRent591, Rent591
@@ -30,8 +28,6 @@ __all__ = [
     "GMaps", "AsyncGMaps",
     "HackerNews", "AsyncHackerNews",
     "Job104", "AsyncJob104",
-    "Luma", "AsyncLuma",
-    "ProductHunt", "AsyncProductHunt",
     "Trustpilot", "AsyncTrustpilot",
     "PTT", "AsyncPTT",
     "Rent591", "AsyncRent591",

@@ -26,8 +26,6 @@ from .platforms.hackernews import AsyncHackerNews, HackerNews
 from .platforms.instagram import AsyncInstagram, Instagram
 from .platforms.job104 import AsyncJob104, Job104
 from .platforms.linkedin import AsyncLinkedIn, LinkedIn
-from .platforms.luma import AsyncLuma, Luma
-from .platforms.producthunt import AsyncProductHunt, ProductHunt
 from .platforms.ptt import PTT, AsyncPTT
 from .platforms.reddit import AsyncReddit, Reddit
 from .platforms.rent591 import AsyncRent591, Rent591
@@ -66,8 +64,6 @@ class ByCrawl:
     google: Google
     hackernews: HackerNews
     job104: Job104
-    luma: Luma
-    producthunt: ProductHunt
     trustpilot: Trustpilot
     ptt: PTT
     rent591: Rent591
@@ -108,8 +104,6 @@ class ByCrawl:
         self.google = Google(self._transport)
         self.hackernews = HackerNews(self._transport)
         self.job104 = Job104(self._transport)
-        self.luma = Luma(self._transport)
-        self.producthunt = ProductHunt(self._transport)
         self.trustpilot = Trustpilot(self._transport)
         self.ptt = PTT(self._transport)
         self.rent591 = Rent591(self._transport)
@@ -147,8 +141,6 @@ class AsyncByCrawl:
     google: AsyncGoogle
     hackernews: AsyncHackerNews
     job104: AsyncJob104
-    luma: AsyncLuma
-    producthunt: AsyncProductHunt
     trustpilot: AsyncTrustpilot
     ptt: AsyncPTT
     rent591: AsyncRent591
@@ -189,8 +181,6 @@ class AsyncByCrawl:
         self.google = AsyncGoogle(self._transport)
         self.hackernews = AsyncHackerNews(self._transport)
         self.job104 = AsyncJob104(self._transport)
-        self.luma = AsyncLuma(self._transport)
-        self.producthunt = AsyncProductHunt(self._transport)
         self.trustpilot = AsyncTrustpilot(self._transport)
         self.ptt = AsyncPTT(self._transport)
         self.rent591 = AsyncRent591(self._transport)
